@@ -132,12 +132,12 @@ defmodule Kaffy.ResourceQuery do
 
               Enum.reduce(fields, query, fn f, current_query ->
                 from([..., r] in current_query,
-                  or_where: ilike(type(field(r, ^f), :string), ^term)
+                  or_where: like(type(field(r, ^f), :string), ^term)
                 )
               end)
 
             f, q ->
-              from(s in q, or_where: ilike(type(field(s, ^f), :string), ^term))
+              from(s in q, or_where: like(type(field(s, ^f), :string), ^term))
           end)
       end
 
