@@ -40,12 +40,12 @@
                 <% end %>
 
                 <div class="p-2">
-                    <%= link "Back", to: Kaffy.Utils.router().kaffy_resource_path(@conn, :index, @context, @resource), class: "btn btn-sm btn-light" %>
-                    <input type="submit" name="submit" value="Save" class="btn btn-sm btn-primary" />
-                    <input type="submit" name="submit" value="Save and add another" class="btn btn-sm btn-primary"/>
-                    <input type="submit" name="submit" value="Save and continue editing" class="btn btn-sm btn-primary" />
+                    <%= link Kaffy.Utils.gettext("Back"), to: Kaffy.Utils.router().kaffy_resource_path(@conn, :index, @context, @resource), class: "btn btn-sm btn-light" %>
+                    <input type="submit" name="submit" value="<%= Kaffy.Utils.gettext("Save") %>" class="btn btn-sm btn-primary" />
+                    <input type="submit" name="submit" value="<%= Kaffy.Utils.gettext("Save and add another") %>" class="btn btn-sm btn-primary"/>
+                    <input type="submit" name="submit" value="<%= Kaffy.Utils.gettext("Save and continue editing") %>" class="btn btn-sm btn-primary" />
                     <button type="button" class="btn btn-sm btn-danger float-right" data-toggle="modal" data-target="#delete-modal">
-                        <i class="fas fa-trash"></i> Delete
+                        <i class="fas fa-trash"></i> <%= Kaffy.Utils.gettext("Delete") %>
                     </button>
                 </div>
             </form>
@@ -58,17 +58,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="delete-modal-label">Are you sure?</h5>
+                    <h5 class="modal-title" id="delete-modal-label"><%= Kaffy.Utils.gettext("Are you sure?") %></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    You might lose this record and other related records forever if you continue. Make sure this is what you really want to do.
+                    <%= Kaffy.Utils.gettext("You might lose this record and other related records forever if you continue. Make sure this is what you really want to do.") %>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Yes, delete this <%= @resource_name %></button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal"><%= Kaffy.Utils.gettext("Cancel") %></button>
+                    <button type="submit" class="btn btn-danger"><%= Kaffy.Utils.gettext("Yes, delete this %{resource}", resource: @resource_name) %></button>
                 </div>
             </div>
         </div>

@@ -418,4 +418,14 @@ defmodule Kaffy.Utils do
   def get_task_modules() do
     env(:scheduled_tasks, [])
   end
+
+
+  def gettext(key, bindings \\ []) do
+    case env(:gettext) do
+      module when is_atom(module) ->
+        Gettext.gettext(module, key, bindings)
+
+      _ -> key
+     end
+  end
 end

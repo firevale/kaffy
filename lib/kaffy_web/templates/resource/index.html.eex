@@ -5,14 +5,14 @@
         <div class="col-auto mr-auto">
           <h3>
             <%= Kaffy.ResourceAdmin.plural_name(@my_resource) %><br/>
-            <span class="badge badge-secondary">(~ <%= @filtered_count %> records)</span>
+            <span class="badge badge-secondary">(<%= Kaffy.Utils.gettext("~ %{filtered_count} records", filtered_count: @filtered_count) %>)</span>
             <div id="checkbox-selected-count" class="checkbox-selected-count float-right"></div>
           </h3>
         </div>
         <div class="col-auto">
           <%= link to: Kaffy.Utils.router().kaffy_resource_path(@conn, :new, @context, @resource), class: "btn btn-outline-primary" do %>
             <i class="fas fa-plus"></i>
-            New <%= Kaffy.ResourceAdmin.singular_name(@my_resource) %>
+            <%= Kaffy.Utils.gettext("New %{resource}", resource: Kaffy.ResourceAdmin.singular_name(@my_resource)) %>
           <% end %>
         </div>
       </div>
@@ -23,7 +23,7 @@
         <div class="row">
 
           <div class="col-auto mr-auto">
-            <input id="kaffy-search-field" type="text" name="search" value="<%= Map.get(@params, "search", "") %>" class="form-control bg-transparent" placeholder="Search <%= Kaffy.ResourceAdmin.plural_name(@my_resource) %>...">
+            <input id="kaffy-search-field" type="text" name="search" value="<%= Map.get(@params, "search", "") %>" class="form-control bg-transparent" placeholder="<%= Kaffy.Utils.gettext("Search %{resource}", resource: Kaffy.ResourceAdmin.singular_name(@my_resource)) %>...">
           </div>
 
           <div class="col-auto">
@@ -60,7 +60,7 @@
       <nav aria-label="index-list-navigation">
         <ul class="pagination">
           <li class="page-item <%= @prev_class %>">
-            <%= link "« Previous", to: Kaffy.Utils.router().kaffy_resource_path(@conn, :index, @context, @resource, Keyword.merge(params, page: @page - 1)), class: "page-link" %>
+            <%= link Kaffy.Utils.gettext("« Previous"), to: Kaffy.Utils.router().kaffy_resource_path(@conn, :index, @context, @resource, Keyword.merge(params, page: @page - 1)), class: "page-link" %>
           </li>
           <%= for page_elem <- @list_pages do %>
             <li class="page-item <%= if page_elem == @page do %>active<% end %>  <%= if page_elem == "..." do %>disabled<% end %>">
@@ -68,7 +68,7 @@
             </li>
           <% end %>
           <li class="page-item <%= @next_class %>">
-            <%= link "Next »", to: Kaffy.Utils.router().kaffy_resource_path(@conn, :index, @context, @resource, Keyword.merge(params, page: @page + 1)), class: "page-link" %>
+            <%= link Kaffy.Utils.gettext("Next »"), to: Kaffy.Utils.router().kaffy_resource_path(@conn, :index, @context, @resource, Keyword.merge(params, page: @page + 1)), class: "page-link" %>
           </li>
         </ul>
       </nav>

@@ -44,7 +44,7 @@
             <%= if Kaffy.Utils.show_dashboard?() do %>
               <li class="nav-item<%= if @conn.assigns[:context] == nil do %> active<% end %>">
                 <%= link to: Kaffy.Utils.router().kaffy_dashboard_path(@conn, :dashboard), class: "nav-link" do %>
-                  <span class="menu-title">Dashboard</span>
+                  <span class="menu-title"><%= Kaffy.Utils.gettext("Dashboard") %></span>
                   <i class="fas fa-home menu-icon"></i>
                 <% end %>
               </li>
@@ -55,7 +55,7 @@
             <%= if not Enum.empty?(tasks) do %>
               <li class="nav-item">
                 <%= link to: Kaffy.Utils.router().kaffy_task_path(@conn, :index), class: "nav-link" do %>
-                    <span class="menu-title">Tasks</span>
+                    <span class="menu-title"><%= Kaffy.Utils.gettext("Tasks") %></span>
                     <i class="fas fa-clock menu-icon"></i>
                 <% end %>
               </li>
