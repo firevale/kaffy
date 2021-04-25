@@ -423,7 +423,7 @@ defmodule Kaffy.Utils do
   def gettext(key, bindings \\ []) do
     case env(:gettext) do
       module when is_atom(module) ->
-        Gettext.gettext(module, key, bindings)
+        Gettext.dgettext(module, "kaffy", key, bindings)
 
       _ -> key
      end
