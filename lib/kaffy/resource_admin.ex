@@ -116,6 +116,14 @@ defmodule Kaffy.ResourceAdmin do
     )
   end
 
+  def show_delete(resource) do
+    Utils.get_assigned_value_or_default(
+      resource,
+      :show_delete,
+      false
+    )
+  end
+
   @doc """
   `ordering/1` takes a schema and returns how the entries should be ordered.
 

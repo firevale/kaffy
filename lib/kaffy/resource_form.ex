@@ -204,6 +204,12 @@ defmodule Kaffy.ResourceForm do
       :utc_datetime_usec ->
         flatpickr_datetime_usec(form, field, opts)
 
+      :password ->
+        password_input(form, field,  opts)
+
+      :email ->
+        email_input(form, field,  opts)
+
       _ ->
         text_input(form, field, opts)
     end

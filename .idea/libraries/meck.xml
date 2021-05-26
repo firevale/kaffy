@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="meck" type="mix">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/deps/meck/src" />
+      <root url="file://$PROJECT_DIR$/deps/meck/src" />
+      <root url="file://$PROJECT_DIR$/deps/meck/src" />
+    </SOURCES>
+  </library>
+</component>

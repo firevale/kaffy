@@ -56,7 +56,7 @@
     var all = $("input.select-all")[0];
     var total = $("input.select-item").length;
     var len = $("input.select-item:checked").length;
-    var html = $('<span class="badge badge-secondary">' + len + " / " + total + " selected" + '</span>');
+    var html = $('<span class="badge badge-secondary">' + len + " / " + total + " 已选择" + '</span>');
     $("#checkbox-selected-count").html(html);
     all.checked = len === total;
   }
