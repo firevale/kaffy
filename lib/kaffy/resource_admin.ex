@@ -76,13 +76,14 @@ defmodule Kaffy.ResourceAdmin do
   end
   ```
   """
-  def form_fields(resource) do
+  def form_fields(resource, conn) do
     schema = resource[:schema]
 
     Utils.get_assigned_value_or_default(
       resource,
       :form_fields,
-      ResourceSchema.form_fields(schema)
+      ResourceSchema.form_fields(schema),
+      [conn]
     )
     |> set_default_field_options(schema)
   end

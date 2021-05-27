@@ -16,7 +16,7 @@
                         <div class="float-right">
                             <div class="btn-group">
                                 <button type="button" class="btn dropdown-toggle btn-sm btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-wrench"></i> <span class="d-none d-md-inline">Actions</span>
+                                    <i class="fas fa-wrench"></i> <span class="d-none d-md-inline"><%= Kaffy.Utils.gettext("Actions") %></span>
                                 </button>
                                 <div class="dropdown-menu">
                                     <%= for {action_key, options} <- Kaffy.ResourceAdmin.resource_actions(@my_resource, @conn) do %>
@@ -33,7 +33,7 @@
         </div>
         <div class="card-body">
             <%= f = form_for(@changeset, Kaffy.Utils.router().kaffy_resource_path(@conn, :update, @context, @resource, @changeset.data.id), method: :put, multipart: true) %>
-                <%= for {field, options} <- Kaffy.ResourceAdmin.form_fields(@my_resource) do %>
+                <%= for {field, options} <- Kaffy.ResourceAdmin.form_fields(@my_resource, @conn) do %>
                     <%= if options.update != :hidden do %>
                         <%= Kaffy.ResourceForm.kaffy_input @conn, @changeset, f, field, options %>
                     <% end %>
