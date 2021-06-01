@@ -25,6 +25,11 @@ defmodule Kaffy.Utils do
     router().static_path(conn, env(:admin_logo_mini, "/kaffy/assets/images/logo-mini.png"))
   end
 
+  @spec face_1(Plug.Conn.t()) :: String.t()
+  def face_1(conn) do
+    router().static_path(conn,  "/kaffy/assets/images/faces-clipart/pic-1.png")
+  end
+
   @doc """
   Returns the JSON package used by phoenix configs. If no such config exists, raise an exception.
   """
@@ -118,6 +123,16 @@ defmodule Kaffy.Utils do
       f when is_function(f) -> f.(conn)
       l when is_list(l) -> l
       _ -> setup_resources()
+    end
+  end
+
+
+  @spec session_filters(Plug.Conn.t()) :: [any()]
+  def session_filters(conn) do
+    case env(:session_filters) do
+      f when is_function(f) -> f.(conn)
+      l when is_list(l) -> l
+      _ -> []
     end
   end
 

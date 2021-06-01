@@ -71,6 +71,15 @@ var lightColor = getComputedStyle(document.body).getPropertyValue('--light');
       }
     });
 
+    $(".navbar-nav .nav-item .custom-select").on('change', function(e) {
+      $.ajax({
+        method: "GET",
+        url: `/session/filter/${this.id}/${this.value}`
+      }).done(function() {
+        location.reload();
+      })
+    });
+
     // flatpickr
     $(".flatpickr-datetimepicker").flatpickr({});
 

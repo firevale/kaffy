@@ -73,7 +73,7 @@ defmodule Kaffy.ResourceQuery do
 
   def total_count(schema, do_cache, query, opts) do
     result =
-      from(s in query, select: fragment("count(*)"))
+      from(s in query, select: fragment("count(1)"))
       |> Kaffy.Utils.repo().one(opts)
 
     if do_cache and result > 100_000 do
@@ -124,7 +124,7 @@ defmodule Kaffy.ResourceQuery do
             |> String.replace("%", "\%")
             |> String.replace("_", "\_")
 
-          term = "%#{term}%"
+          term = "#{term}%"
 
           Enum.reduce(search_fields, query, fn
             {association, fields}, q ->
@@ -132,12 +132,12 @@ defmodule Kaffy.ResourceQuery do
 
               Enum.reduce(fields, query, fn f, current_query ->
                 from([..., r] in current_query,
-                  or_where: like(type(field(r, ^f), :string), ^term)
+                  or_where: like(field(r, ^f), ^term)
                 )
               end)
 
             f, q ->
-              from(s in q, or_where: like(type(field(s, ^f), :string), ^term))
+              from(s in q, or_where: like(field(s, ^f), ^term))
           end)
       end
 

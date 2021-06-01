@@ -9,6 +9,11 @@
             <div id="checkbox-selected-count" class="checkbox-selected-count float-right"></div>
           </h3>
         </div>
+        <%= if Enum.count(Kaffy.ResourceAdmin.search_fields(@my_resource)) > 0 do  %>
+          <div class="col-auto">
+            <input id="kaffy-search-field" type="text" name="search" value="<%= Map.get(@params, "search", "") %>" class="form-control" placeholder="<%= Kaffy.Utils.gettext("Search %{resource}", resource: Kaffy.ResourceAdmin.singular_name(@my_resource)) %>...">
+          </div>
+        <% end  %>
         <div class="col-auto">
           <%= link to: Kaffy.Utils.router().kaffy_resource_path(@conn, :new, @context, @resource), class: "btn btn-outline-primary" do %>
             <i class="fas fa-plus"></i>
@@ -19,39 +24,33 @@
     </div>
 
     <div class="card-body table-responsive w-100">
-      <div class="card-description">
-        <div class="row">
-
-          <div class="col-auto mr-auto">
-            <input id="kaffy-search-field" type="text" name="search" value="<%= Map.get(@params, "search", "") %>" class="form-control bg-transparent" placeholder="<%= Kaffy.Utils.gettext("Search %{resource}", resource: Kaffy.ResourceAdmin.singular_name(@my_resource)) %>...">
-          </div>
-
-          <div class="col-auto">
-            <%= if list_actions = Kaffy.ResourceAdmin.list_actions(@my_resource, @conn) do %>
-              <div class="btn-group">
-                <button type="button" class="btn dropdown-toggle btn-sm btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-wrench"></i> <span class="d-none d-md-inline">Actions</span>
-                </button>
-                <div class="dropdown-menu">
-                  <%= for {action_key, options} <- list_actions do %>
-                      <% extra_inputs = Map.get(options, :inputs, []) %>
-                      <%= if !Enum.empty?(extra_inputs) do %>
-                        <button type="button" data-toggle="modal" class="dropdown-item" data-target="#<%= action_key %>_modal">
-                          <%= options.name %>
-                        </button>
-                      <% else %>
-                        <%= form_tag(Kaffy.Utils.router().kaffy_resource_path(@conn, :list_action, @context, @resource, to_string(action_key)), method: :post, class: "list-action", id: "#{action_key}_form") %>
-                          <input type="submit" name="submit" value="<%= options.name %>" class="dropdown-item kaffy-list-action-submit" id="<%= action_key %>_submit" />
-                        </form>
-                      <% end %>
-                  <% end %>
+      <%= if list_actions = Kaffy.ResourceAdmin.list_actions(@my_resource, @conn) do %>
+        <div class="card-description">
+          <div class="row">
+            <div class="col-auto">
+                <div class="btn-group">
+                  <button type="button" class="btn dropdown-toggle btn-sm btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-wrench"></i> <span class="d-none d-md-inline">Actions</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <%= for {action_key, options} <- list_actions do %>
+                        <% extra_inputs = Map.get(options, :inputs, []) %>
+                        <%= if !Enum.empty?(extra_inputs) do %>
+                          <button type="button" data-toggle="modal" class="dropdown-item" data-target="#<%= action_key %>_modal">
+                            <%= options.name %>
+                          </button>
+                        <% else %>
+                          <%= form_tag(Kaffy.Utils.router().kaffy_resource_path(@conn, :list_action, @context, @resource, to_string(action_key)), method: :post, class: "list-action", id: "#{action_key}_form") %>
+                            <input type="submit" name="submit" value="<%= options.name %>" class="dropdown-item kaffy-list-action-submit" id="<%= action_key %>_submit" />
+                          </form>
+                        <% end %>
+                    <% end %>
+                  </div>
                 </div>
-              </div>
-            <% end %>
+            </div>
           </div>
         </div>
-      </div>
-
+      <% end %>
       <%= render KaffyWeb.ResourceView, "_table.html", conn: @conn, fields: @fields, context: @context, resource: @resource, my_resource: @my_resource, entries: @entries, params: @params %>
     </div>
 
