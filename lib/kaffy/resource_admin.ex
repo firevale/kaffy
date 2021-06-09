@@ -125,6 +125,22 @@ defmodule Kaffy.ResourceAdmin do
     )
   end
 
+  def show_create(resource) do
+    Utils.get_assigned_value_or_default(
+      resource,
+      :show_create,
+      true
+    )
+  end
+
+  def show_edit(resource) do
+    Utils.get_assigned_value_or_default(
+      resource,
+      :show_edit,
+      true
+    )
+  end
+
   @doc """
   `ordering/1` takes a schema and returns how the entries should be ordered.
 

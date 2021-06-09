@@ -27,7 +27,7 @@
             <%= if filters do %>
                 <th class="bg-light">
                     <select class="kaffy-filter custom-select" id="kaffy-field-<%= index %>" data-field-name="<%= field %>">
-                        <option value="">All</option>
+                        <option value=""><%= Kaffy.Utils.gettext("All") %></option>
                         <%= for {human, machine} <- filters do %>
                             <option value="<%= machine %>"<%= if Map.get(@params, to_string(field)) == to_string(machine) do %> selected<% end %>><%= human %></option>
                         <% end %>
