@@ -67,7 +67,8 @@
 }
 
 .sidebar .nav .nav-item:hover {
-    background: #1240c4;
+    /* background: #1240c4; */
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .btn-sm, .btn-group-sm > .btn {

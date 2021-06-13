@@ -17145,7 +17145,7 @@ dl li {
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease;
-  background: #fff;
+  background: rgba(0, 0, 0, 0.85);
   width: 16.25rem;
   height: 4.375rem;
 }
@@ -17723,7 +17723,8 @@ dl li {
 /* Sidebar */
 .sidebar {
   min-height: calc(100vh - 4.375rem);
-  background: #4e73df;
+  /* background: #4e73df; */
+  background: rgba(0, 0, 0, 0.85);
   font-family: "ubuntu-regular", sans-serif;
   padding: 0;
   width: 16.25rem;
@@ -17839,7 +17840,7 @@ dl li {
 }
 
 .sidebar .nav .nav-item.active {
-  background: #2653d4;
+  background: rgb(12, 33, 53);
 }
 
 .sidebar .nav .nav-item.active > .nav-link .menu-title {
@@ -17852,7 +17853,7 @@ dl li {
 }
 
 .sidebar .nav .nav-item:hover {
-  background: #2653d4;
+  background: rgba(12, 33, 53, 0.85);
 }
 
 .sidebar .nav .nav-item.nav-profile .nav-link {

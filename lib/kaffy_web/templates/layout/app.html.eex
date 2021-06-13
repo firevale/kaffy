@@ -111,7 +111,6 @@
                 <a class="nav-link collapsed" href="#kaffy-pages" data-toggle="collapse" aria-expanded="false" aria-controls="kaffy-pages">
                     <span class="menu-title"><%= Kaffy.Utils.gettext("Pages") %></span>
                     <i class="menu-arrow"></i>
-                    <i class="fas fa-bars menu-icon"></i>
                 </a>
                 <div class="collapse" id="kaffy-pages">
                   <ul class="nav flex-column sub-menu">
@@ -129,7 +128,6 @@
                        href="#<%= context %>-context" data-toggle="collapse" aria-expanded="false" aria-controls="<%= context %>-context">
                         <span class="menu-title"><%= Kaffy.Utils.context_name(@conn, context) %></span>
                         <i class="menu-arrow"></i>
-                        <i class="fas fa-bars menu-icon"></i>
                     </a>
                     <div class="collapse<%= if @conn.assigns[:context] == to_string(context) do %> show<% end %>" id="<%= context %>-context">
                       <ul class="nav flex-column sub-menu">
