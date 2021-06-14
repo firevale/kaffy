@@ -6,8 +6,10 @@ $(document).ready(function () {
     var textareaId = "#" + $(this).attr('id');
     ClassicEditor
       .create(document.querySelector(textareaId), {
-        // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
-        toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent', '|', 'insertTable', '|', 'undo', 'redo']
+        simpleUpload: {
+          // The URL that the images are uploaded to.
+          uploadUrl: '/upload',
+        }
       })
       .then(editor => {
         window.editor = editor;
