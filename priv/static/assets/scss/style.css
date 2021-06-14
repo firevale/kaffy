@@ -17781,7 +17781,8 @@ dl li {
 .sidebar .nav .nav-item .nav-link i.menu-icon {
   font-size: 1.125rem;
   line-height: 1;
-  margin-left: auto;
+  /* margin-left: auto; */
+  margin-right: 1rem;
   color: #c0cbee;
 }
 

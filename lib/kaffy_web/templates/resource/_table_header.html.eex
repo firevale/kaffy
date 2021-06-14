@@ -21,11 +21,11 @@
 
 <%= if Kaffy.ResourceSchema.has_field_filters?(@my_resource) do %>
     <tr>
-        <th class="bg-light"></th>
+        <th class="bg-light filter"></th>
         <%= for {field, index} <- Enum.with_index(@fields) do %>
             <% {field, filters} = Kaffy.ResourceSchema.kaffy_field_filters(@my_resource[:schema], field) %>
             <%= if filters do %>
-                <th class="bg-light">
+                <th class="bg-light filter">
                     <select class="kaffy-filter custom-select" id="kaffy-field-<%= index %>" data-field-name="<%= field %>">
                         <option value=""><%= Kaffy.Utils.gettext("All") %></option>
                         <%= for {human, machine} <- filters do %>
@@ -34,7 +34,7 @@
                     </select>
                 </th>
             <% else %>
-                <th class="bg-light"></th>
+                <th class="bg-light filter"></th>
             <% end %>
         <% end %>
     </tr>

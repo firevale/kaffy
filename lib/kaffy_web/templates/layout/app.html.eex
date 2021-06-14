@@ -78,8 +78,8 @@
             <%= if Kaffy.Utils.show_dashboard?() do %>
               <li class="nav-item<%= if @conn.assigns[:context] == nil do %> active<% end %>">
                 <%= link to: Kaffy.Utils.router().kaffy_dashboard_path(@conn, :dashboard), class: "nav-link" do %>
-                  <span class="menu-title"><%= Kaffy.Utils.gettext("Dashboard") %></span>
                   <i class="fas fa-home menu-icon"></i>
+                  <span class="menu-title"><%= Kaffy.Utils.gettext("Dashboard") %></span>
                 <% end %>
               </li>
             <% end %>
@@ -89,8 +89,8 @@
             <%= if not Enum.empty?(tasks) do %>
               <li class="nav-item">
                 <%= link to: Kaffy.Utils.router().kaffy_task_path(@conn, :index), class: "nav-link" do %>
-                    <span class="menu-title"><%= Kaffy.Utils.gettext("Tasks") %></span>
                     <i class="fas fa-clock menu-icon"></i>
+                    <span class="menu-title"><%= Kaffy.Utils.gettext("Tasks") %></span>
                 <% end %>
               </li>
             <% end %>
@@ -98,8 +98,8 @@
             <%= for custom_link <- Kaffy.ResourceAdmin.collect_links(@conn, :top) do %>
               <li class="nav-item">
                 <%= link to: custom_link.url, method: custom_link.method, class: "nav-link", target: custom_link.target do %>
-                  <span class="menu-title"><%= custom_link.name %></span>
                   <i class="fas fa-<%= custom_link.icon %> menu-icon"></i>
+                  <span class="menu-title"><%= custom_link.name %></span>
                 <% end %>
               </li>
             <% end %>
@@ -109,6 +109,7 @@
             <%= if !Enum.empty?(custom_pages) do %>
               <li class="nav-item">
                 <a class="nav-link collapsed" href="#kaffy-pages" data-toggle="collapse" aria-expanded="false" aria-controls="kaffy-pages">
+                    <i class="fas fa-atom menu-icon"></i>
                     <span class="menu-title"><%= Kaffy.Utils.gettext("Pages") %></span>
                     <i class="menu-arrow"></i>
                 </a>
@@ -126,6 +127,7 @@
                 <li class="nav-item<%= if @conn.assigns[:context] == to_string(context) do %> active<% end %>">
                     <a class="nav-link <%= if @conn.assigns[:context] != to_string(context) do %> collapsed<% end %>"
                        href="#<%= context %>-context" data-toggle="collapse" aria-expanded="false" aria-controls="<%= context %>-context">
+                        <i class="fas fa-bars menu-icon"></i>
                         <span class="menu-title"><%= Kaffy.Utils.context_name(@conn, context) %></span>
                         <i class="menu-arrow"></i>
                     </a>
