@@ -333,6 +333,9 @@ defmodule Kaffy.Utils do
 
       [page: slug] ->
         router().kaffy_page_path(conn, :index, slug)
+
+      [path: path] ->
+        path
     end
   end
 
