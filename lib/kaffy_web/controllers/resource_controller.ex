@@ -24,10 +24,15 @@ defmodule KaffyWeb.ResourceController do
       true ->
         fields = Kaffy.ResourceAdmin.index(my_resource)
         {filtered_count, entries} = Kaffy.ResourceQuery.list_resource(conn, my_resource, params)
-        items_per_page = Map.get(params, "limit", "100")
-                         |> String.to_integer()
-        page = Map.get(params, "page", "1")
-               |> String.to_integer()
+
+        items_per_page =
+          Map.get(params, "limit", "100")
+          |> String.to_integer()
+
+        page =
+          Map.get(params, "page", "1")
+          |> String.to_integer()
+
         has_next = round(filtered_count / items_per_page) > page
         next_class = if has_next, do: "", else: " disabled"
         has_prev = page >= 2
@@ -65,10 +70,15 @@ defmodule KaffyWeb.ResourceController do
       true ->
         fields = Kaffy.ResourceAdmin.index(my_resource)
         {filtered_count, entries} = Kaffy.ResourceQuery.list_resource(conn, my_resource, params)
-        items_per_page = Map.get(params, "limit", "100")
-                         |> String.to_integer()
-        page = Map.get(params, "page", "1")
-               |> String.to_integer()
+
+        items_per_page =
+          Map.get(params, "limit", "100")
+          |> String.to_integer()
+
+        page =
+          Map.get(params, "page", "1")
+          |> String.to_integer()
+
         has_next = round(filtered_count / items_per_page) > page
         next_class = if has_next, do: "", else: " disabled"
         has_prev = page >= 2
@@ -124,8 +134,8 @@ defmodule KaffyWeb.ResourceController do
         else
           put_flash(conn, :error, "The resource you are trying to visit does not exist!")
           |> redirect(
-               to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
-             )
+            to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
+          )
         end
     end
   end
@@ -135,8 +145,9 @@ defmodule KaffyWeb.ResourceController do
     schema = my_resource[:schema]
     params = Kaffy.ResourceParams.decode_map_fields(resource, schema, params)
 
-    resource_name = Kaffy.ResourceAdmin.singular_name(my_resource)
-                    |> String.capitalize()
+    resource_name =
+      Kaffy.ResourceAdmin.singular_name(my_resource)
+      |> String.capitalize()
 
     case can_proceed?(my_resource, conn) do
       false ->
@@ -161,15 +172,15 @@ defmodule KaffyWeb.ResourceController do
                 conn
                 |> put_flash(:success, "#{resource_name} saved successfully")
                 |> redirect(
-                     to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
-                   )
+                  to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
+                )
 
               ^save_and_add_another ->
                 conn
                 |> put_flash(:success, "#{resource_name} saved successfully")
                 |> redirect(
-                     to: Kaffy.Utils.router().kaffy_resource_path(conn, :new, context, resource)
-                   )
+                  to: Kaffy.Utils.router().kaffy_resource_path(conn, :new, context, resource)
+                )
 
               ^save_and_continue_editing ->
                 conn
@@ -227,8 +238,9 @@ defmodule KaffyWeb.ResourceController do
         unauthorized_access(conn)
 
       true ->
-        changeset = Kaffy.ResourceAdmin.create_changeset(my_resource, %{})
-                    |> Map.put(:errors, [])
+        changeset =
+          Kaffy.ResourceAdmin.create_changeset(my_resource, %{})
+          |> Map.put(:errors, [])
 
         render(
           conn,
@@ -264,15 +276,15 @@ defmodule KaffyWeb.ResourceController do
               ^save ->
                 put_flash(conn, :success, "Created a new #{resource_name} successfully")
                 |> redirect(
-                     to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
-                   )
+                  to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
+                )
 
               ^save_and_add_another ->
                 conn
                 |> put_flash(:success, "#{resource_name} saved successfully")
                 |> redirect(
-                     to: Kaffy.Utils.router().kaffy_resource_path(conn, :new, context, resource)
-                   )
+                  to: Kaffy.Utils.router().kaffy_resource_path(conn, :new, context, resource)
+                )
 
               ^save_and_continue_editing ->
                 put_flash(conn, :success, "Created a new #{resource_name} successfully")
@@ -297,14 +309,14 @@ defmodule KaffyWeb.ResourceController do
             conn
             |> put_flash(:error, error)
             |> render(
-                 "new.html",
-                 layout: {KaffyWeb.LayoutView, "app.html"},
-                 changeset: changeset,
-                 context: context,
-                 resource: resource,
-                 resource_name: resource_name,
-                 my_resource: my_resource
-               )
+              "new.html",
+              layout: {KaffyWeb.LayoutView, "app.html"},
+              changeset: changeset,
+              context: context,
+              resource: resource,
+              resource_name: resource_name,
+              my_resource: my_resource
+            )
         end
     end
   end
@@ -323,8 +335,8 @@ defmodule KaffyWeb.ResourceController do
           {:ok, _deleted} ->
             put_flash(conn, :success, "The record was deleted successfully")
             |> redirect(
-                 to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
-               )
+              to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
+            )
 
           {:error, %Ecto.Changeset{} = _changeset} ->
             put_flash(
@@ -375,8 +387,11 @@ defmodule KaffyWeb.ResourceController do
         %{"context" => context, "resource" => resource, "action_key" => action_key} = params
       ) do
     my_resource = Kaffy.Utils.get_resource(conn, context, resource)
-    ids = Map.get(params, "ids", "")
-          |> String.split(",")
+
+    ids =
+      Map.get(params, "ids", "")
+      |> String.split(",")
+
     entries = Kaffy.ResourceQuery.fetch_list(my_resource, ids)
     actions = Kaffy.ResourceAdmin.list_actions(my_resource, conn)
     action_record = get_action_record(actions, action_key)

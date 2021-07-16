@@ -20,11 +20,18 @@ defmodule Kaffy.Routes do
 
     quote do
       pipeline :kaffy_browser do
+        plug(Plug.Parsers,
+          parsers: [:urlencoded, :multipart, :json],
+          pass: ["*/*"],
+          json_decoder: Phoenix.json_library()
+        )
+
         plug(:accepts, ["html", "json"])
         plug(:fetch_session)
         plug(:fetch_flash)
-        plug(:protect_from_forgery)
-        plug(:put_secure_browser_headers)
+        # TODO: uncomment next line
+        # plug(:protect_from_forgery)
+        # plug(:put_secure_browser_headers)
       end
 
       scope unquote(scoped), KaffyWeb do
@@ -47,6 +54,7 @@ defmodule Kaffy.Routes do
 
         get("/:context/:resource/new", ResourceController, :new, as: :kaffy_resource)
         get("/:context/:resource/:id", ResourceController, :show, as: :kaffy_resource)
+        post("/:context/:resource/:id", ResourceController, :update, as: :kaffy_resource)
         put("/:context/:resource/:id", ResourceController, :update, as: :kaffy_resource)
         delete("/:context/:resource/:id", ResourceController, :delete, as: :kaffy_resource)
 
