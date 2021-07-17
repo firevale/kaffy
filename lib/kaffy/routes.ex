@@ -29,9 +29,8 @@ defmodule Kaffy.Routes do
         plug(:accepts, ["html", "json"])
         plug(:fetch_session)
         plug(:fetch_flash)
-        # TODO: uncomment next line
-        # plug(:protect_from_forgery)
-        # plug(:put_secure_browser_headers)
+        plug(:protect_from_forgery)
+        plug(:put_secure_browser_headers)
       end
 
       scope unquote(scoped), KaffyWeb do
