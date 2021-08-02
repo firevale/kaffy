@@ -362,7 +362,7 @@ defmodule Kaffy.Utils do
   end
 
   defp env(key, default \\ nil) do
-    Application.get_env(:kaffy, key, default)
+    Application.get_env(:kaffy2, key, default)
   end
 
   defp convert_to_atoms(context, resource) do
