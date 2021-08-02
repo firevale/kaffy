@@ -1,4 +1,4 @@
-defmodule Kaffy.Application do
+defmodule Kaffy2.Application do
   @moduledoc false
 
   use Application
