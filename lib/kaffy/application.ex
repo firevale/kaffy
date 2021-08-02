@@ -9,7 +9,7 @@ defmodule Kaffy.Application do
       Kaffy.Cache.Client
     ]
 
-    opts = [strategy: :one_for_one, name: Kaffy.Supervisor]
+    opts = [strategy: :one_for_one, name: Kaffy2.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

@@ -2,7 +2,7 @@ defmodule Kaffy.Scheduler.Supervisor do
   use DynamicSupervisor
 
   def start_link(args) do
-    result = DynamicSupervisor.start_link(__MODULE__, args, name: KaffyTaskSupervisor)
+    result = DynamicSupervisor.start_link(__MODULE__, args, name: KaffyTaskSupervisor2)
     tasks = Kaffy.Tasks.collect_tasks()
 
     for task <- tasks do
