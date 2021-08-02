@@ -6,7 +6,6 @@ defmodule Kaffy2.Application do
   @spec start(any, any) :: {:error, any} | {:ok, pid}
   def start(_type, _args) do
     children = [
-      {Kaffy.Scheduler.Supervisor, []},
       Kaffy.Cache.Client
     ]
 
