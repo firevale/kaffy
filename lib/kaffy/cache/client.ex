@@ -2,7 +2,7 @@ defmodule Kaffy.Cache.Client do
   use GenServer
 
   def start_link(args) do
-    GenServer.start_link(__MODULE__, args, name: KaffyCache)
+    GenServer.start_link(__MODULE__, args, name: KaffyCache2)
   end
 
   @impl true
