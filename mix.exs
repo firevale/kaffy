@@ -5,7 +5,7 @@ defmodule Kaffy.MixProject do
 
   def project do
     [
-      app: :kaffy,
+      app: :kaffy2,
       version: @version,
       elixir: "~> 1.7",
       compilers: [:phoenix] ++ Mix.compilers(),
