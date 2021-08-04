@@ -84,17 +84,6 @@
               </li>
             <% end %>
 
-            <% tasks = Kaffy.Tasks.tasks_info() %>
-
-            <%= if not Enum.empty?(tasks) do %>
-              <li class="nav-item">
-                <%= link to: Kaffy.Utils.router().kaffy_task_path(@conn, :index), class: "nav-link" do %>
-                    <i class="fas fa-clock menu-icon"></i>
-                    <span class="menu-title"><%= Kaffy.Utils.gettext("Tasks") %></span>
-                <% end %>
-              </li>
-            <% end %>
-
             <%= for custom_link <- Kaffy.ResourceAdmin.collect_links(@conn, :top) do %>
               <li class="nav-item">
                 <%= link to: custom_link.url, method: custom_link.method, class: "nav-link", target: custom_link.target do %>
