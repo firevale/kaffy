@@ -56,7 +56,7 @@
                   <img src="<%= Kaffy.Utils.face_1(@conn) %>" alt="avatar" />
                 </span>
                 <span class="nav-profile-text">
-                  <%= @conn.assigns[:sys_user].name %>
+                  <%= @conn.assigns[:user].name %>
                 </span>
               </div>
 
