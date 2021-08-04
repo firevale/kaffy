@@ -1,4 +1,4 @@
-defmodule Kaffy.MixProject do
+defmodule Kaffy2.MixProject do
   use Mix.Project
 
   @version "0.9.1"
@@ -12,7 +12,7 @@ defmodule Kaffy.MixProject do
       start_permanent: Mix.env() == :prod,
       description: description(),
       package: package(),
-      name: "Kaffy",
+      name: "Kaffy2",
       source_url: "https://github.com/aesmail/kaffy",
       deps: deps(),
       docs: docs()
@@ -57,7 +57,7 @@ defmodule Kaffy.MixProject do
   def docs() do
     [
       main: "readme",
-      name: "Kaffy",
+      name: "Kaffy2",
       source_ref: "v#{@version}",
       canonical: "http://hexdocs.pm/kaffy",
       source_url: "https://github.com/aesmail/kaffy",

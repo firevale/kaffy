@@ -1,4 +1,4 @@
-defmodule Kaffy.ResourceSchema do
+defmodule Kaffy2.ResourceSchema do
   @moduledoc false
 
   def primary_key(schema) do
@@ -51,7 +51,7 @@ defmodule Kaffy.ResourceSchema do
 
   def default_field_options(schema, field) do
     type = field_type(schema, field)
-    label = Kaffy.ResourceForm.form_label_string(field)
+    label = Kaffy2.ResourceForm.form_label_string(field)
     merge_field_options(%{label: label, type: type})
   end
 
@@ -100,7 +100,7 @@ defmodule Kaffy.ResourceSchema do
     |> reorder_field(:inserted_at, :last)
     |> reorder_field(:updated_at, :last)
 
-    # |> reorder_field(Kaffy.ResourceSchema.embeds(schema), :last)
+    # |> reorder_field(Kaffy2.ResourceSchema.embeds(schema), :last)
   end
 
   defp reorder_field(fields_list, [], _), do: fields_list
@@ -124,7 +124,7 @@ defmodule Kaffy.ResourceSchema do
   end
 
   def has_field_filters?(resource) do
-    admin_fields = Kaffy.ResourceAdmin.index(resource)
+    admin_fields = Kaffy2.ResourceAdmin.index(resource)
 
     fields_with_filters =
       Enum.map(admin_fields, fn f -> kaffy_field_filters(resource[:schema], f) end)
@@ -153,12 +153,12 @@ defmodule Kaffy.ResourceSchema do
   end
 
   def kaffy_field_name(_schema, field) when is_atom(field) do
-    Kaffy.ResourceAdmin.humanize_term(field)
+    Kaffy2.ResourceAdmin.humanize_term(field)
   end
 
   def kaffy_field_value(conn, schema, {field, options}) do
     default_value = kaffy_field_value(schema, field)
-    ft = Kaffy.ResourceSchema.field_type(schema.__struct__, field)
+    ft = Kaffy2.ResourceSchema.field_type(schema.__struct__, field)
     value = Map.get(options || %{}, :value)
 
     cond do
@@ -171,14 +171,14 @@ defmodule Kaffy.ResourceSchema do
         else
           Map.from_struct(value)
           |> Map.drop([:__meta__])
-          |> Kaffy.Utils.json().encode!(escape: :html_safe, pretty: true)
+          |> Kaffy2.Utils.json().encode!(escape: :html_safe, pretty: true)
         end
 
-      Kaffy.Utils.is_module(ft) && Keyword.has_key?(ft.__info__(:functions), :render_index) ->
+      Kaffy2.Utils.is_module(ft) && Keyword.has_key?(ft.__info__(:functions), :render_index) ->
         ft.render_index(conn, schema, field, options)
 
       is_map(value) ->
-        Kaffy.Utils.json().encode!(value, escape: :html_safe, pretty: true)
+        Kaffy2.Utils.json().encode!(value, escape: :html_safe, pretty: true)
 
       is_binary(value) ->
         value
@@ -201,11 +201,11 @@ defmodule Kaffy.ResourceSchema do
         else
           Map.from_struct(value)
           |> Map.drop([:__meta__])
-          |> Kaffy.Utils.json().encode!(escape: :html_safe, pretty: true)
+          |> Kaffy2.Utils.json().encode!(escape: :html_safe, pretty: true)
         end
 
       is_map(value) ->
-        Kaffy.Utils.json().encode!(value, escape: :html_safe, pretty: true)
+        Kaffy2.Utils.json().encode!(value, escape: :html_safe, pretty: true)
 
       is_binary(value) ->
         String.slice(value, 0, 140)

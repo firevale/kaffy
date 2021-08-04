@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Kaffy was created out of a need to have a powerfully simple, flexible, and customizable admin interface
+Kaffy2 was created out of a need to have a powerfully simple, flexible, and customizable admin interface
 without the need to touch the current codebase. It was inspired by django's lovely built-in `admin` app and rails' powerful `activeadmin` gem.
 
 ## Sections
@@ -28,11 +28,11 @@ without the need to touch the current codebase. It was inspired by django's love
 - [Custom Actions](#custom-actions)
 - [Custom Callbacks When Saving Records](#callbacks)
 - [Simple Scheduled Tasks](#scheduled-tasks)
-- [The Driving Points Behind Kaffy's Development](#the-driving-points)
+- [The Driving Points Behind Kaffy2's Development](#the-driving-points)
 
 ## Sponsors
 
-Become a sponsor through Kaffy's [OpenCollective](https://opencollective.com/kaffy) page.
+Become a sponsor through Kaffy2's [OpenCollective](https://opencollective.com/kaffy) page.
 
 ## Demo
 
@@ -58,7 +58,7 @@ end
 
 ```elixir
 # in your router.ex
-use Kaffy.Routes, scope: "/admin", pipe_through: [:some_plug, :authenticate]
+use Kaffy2.Routes, scope: "/admin", pipe_through: [:some_plug, :authenticate]
 # :scope defaults to "/admin"
 # :pipe_through defaults to kaffy's [:kaffy_browser]
 # when providing pipelines, they will be added after :kaffy_browser
@@ -99,7 +99,7 @@ end
 
 If you're upgrading from an earlier version to v0.9, you need to replace your `:schemas` with `:resources`.
 
-If you don't specify a `resources` option in your configs, Kaffy will try to auto-detect your schemas and your admin modules. Admin modules should be in the same namespace as their respective schemas in order for kaffy to detect them. For example, if you have a schema `MyApp.Products.Product`, its admin module should be `MyApp.Products.ProductAdmin`.
+If you don't specify a `resources` option in your configs, Kaffy2 will try to auto-detect your schemas and your admin modules. Admin modules should be in the same namespace as their respective schemas in order for kaffy to detect them. For example, if you have a schema `MyApp.Products.Product`, its admin module should be `MyApp.Products.ProductAdmin`.
 
 Otherwise, if you'd like to explicitly specify your schemas and their admin modules, you can do like the following:
 
@@ -113,10 +113,10 @@ config :kaffy,
   home_page: [kaffy: :dashboard],
   ecto_repo: MyApp.Repo,
   router: MyAppWeb.Router,
-  resources: &MyApp.Kaffy.Config.create_resources/1
+  resources: &MyApp.Kaffy2.Config.create_resources/1
 
 # in your custom resources function
-defmodule MyApp.Kaffy.Config do
+defmodule MyApp.Kaffy2.Config do
   def create_resources(_conn) do
     [
       blog: [
@@ -139,7 +139,7 @@ defmodule MyApp.Kaffy.Config do
 end
 ```
 
-Starting with Kaffy v0.9, the `:resources` option can take a literal list or a function.
+Starting with Kaffy2 v0.9, the `:resources` option can take a literal list or a function.
 If a function is provided, it should take a conn and return a list of contexts and schemas like in the example above.
 Passing a conn to the function provides more flexibility and customization to your resources list.
 
@@ -185,7 +185,7 @@ resources: [
 
 ### Dashboard page
 
-Kaffy supports dashboard customizations through `widgets`.
+Kaffy2 supports dashboard customizations through `widgets`.
 
 ![Dashboard page widgets](demos/kaffy_dashboard.png)
 
@@ -253,13 +253,13 @@ defmodule MyApp.Products.ProductAdmin do
 end
 ```
 
-Kaffy will collect all widgets from all admin modules and orders them based on the `:order` option if present and displays them on the dashboard page.
+Kaffy2 will collect all widgets from all admin modules and orders them based on the `:order` option if present and displays them on the dashboard page.
 
 ### Side Menu
 
 #### Custom Links
 
-Kaffy provides support for adding custom links to the side navigation menu.
+Kaffy2 provides support for adding custom links to the side navigation menu.
 
 ```elixir
 defmodule MyApp.Products.ProductAdmin do
@@ -285,7 +285,7 @@ end
 
 ### Custom Pages
 
-Kaffy allows you to add custom pages like the following:
+Kaffy2 allows you to add custom pages like the following:
 
 ![Custom Pages](demos/kaffy_custom_pages.png)
 
@@ -314,7 +314,7 @@ The maps have the following keys:
 - `:slug` to indicate the url of the page, e.g., `/admin/p/my-own-thing`.
 - `:name` for the name of the link on the side menu.
 - `:view` to set the view from your own app.
-- `:template` to set the custom template you want to render in Kaffy's layout.
+- `:template` to set the custom template you want to render in Kaffy2's layout.
 - `:assigns` (optional) to hold the assigns for the template. Default to an empty list.
 - `:order` is the order of the page among other pages in the side menu.
 
@@ -322,9 +322,9 @@ The maps have the following keys:
 
 The `index/1` function takes a schema and must return a keyword list of fields and their options.
 
-If the options are `nil`, Kaffy will use default values for that field.
+If the options are `nil`, Kaffy2 will use default values for that field.
 
-If this function is not defined, Kaffy will return all fields with their respective values.
+If this function is not defined, Kaffy2 will return all fields with their respective values.
 
 ```elixir
 defmodule MyApp.Blog.PostAdmin do
@@ -394,7 +394,7 @@ end
 
 ### Form Pages
 
-Kaffy treats the show and edit pages as one, the form page.
+Kaffy2 treats the show and edit pages as one, the form page.
 
 To customize the fields shown in this page, define a `form_fields/1` function in your admin module.
 
@@ -442,13 +442,13 @@ Setting a field's type to `:richtext` will render a rich text editor.
 
 ### Custom Form Fields
 
-You can create your own form fields very easily with Kaffy.
+You can create your own form fields very easily with Kaffy2.
 Just follow the instructions on how to create a custom type for ecto and add 2 additional functions to the module:
 `render_form/5` and `render_index/3`.
 Check the below example or a better example on the comments of [this issue](https://github.com/aesmail/kaffy/issues/54).
 
 ```elixir
-defmodule MyApp.Kaffy.URLField do
+defmodule MyApp.Kaffy2.URLField do
   use Ecto.Type
   def type, do: :string
 
@@ -516,7 +516,7 @@ end
 
 ### Customize the Queries
 
-By default Kaffy does a simple Ecto query to retrieve records.  You can customize the queries used by Kaffy by using `custom_index_query` and `custom_show_query`.  This allows you to preload associations to display associated data on your pages, for example.  Attempting to access an association without preloading it first will result in a `Ecto.Association.NotLoaded` exception.
+By default Kaffy2 does a simple Ecto query to retrieve records.  You can customize the queries used by Kaffy2 by using `custom_index_query` and `custom_show_query`.  This allows you to preload associations to display associated data on your pages, for example.  Attempting to access an association without preloading it first will result in a `Ecto.Association.NotLoaded` exception.
 
 ```elixir
 defmodule MyApp.Blog.PostAdmin do
@@ -555,13 +555,13 @@ end
 ### Extensions
 
 Extensions allow you to define custom css, javascript, and html.
-For example, you need to use a specific javascript library or customize the look and feel of Kaffy.
+For example, you need to use a specific javascript library or customize the look and feel of Kaffy2.
 This is where extensions come in handy.
 
 Extensions are elixir modules which special functions.
 
 ```elixir
-defmodule MyApp.Kaffy.Extension do
+defmodule MyApp.Kaffy2.Extension do
   def stylesheets(_conn) do
     [
       {:safe, ~s(<link rel="stylesheet" href="/kaffy/somestyle.css" />)}
@@ -587,7 +587,7 @@ Once you have your extension module, you need to add it to the `extensions` list
 config :kaffy,
   # other settings
   extensions: [
-    MyApp.Kaffy.Extension
+    MyApp.Kaffy2.Extension
   ]
 ```
 
@@ -595,11 +595,11 @@ You can check [this issue](https://github.com/aesmail/kaffy/issues/54) to see an
 
 ### Embedded Schemas and JSON Fields
 
-Kaffy has support for ecto's [embedded schemas](https://hexdocs.pm/ecto/Ecto.Schema.html#embedded_schema/1) and json fields. When you define a field as a `:map`, Kaffy will automatically display a textarea with a placeholder to hint that JSON content is expected. When you have an embedded schema, Kaffy will try to render each field inline with the form of the parent schema.
+Kaffy2 has support for ecto's [embedded schemas](https://hexdocs.pm/ecto/Ecto.Schema.html#embedded_schema/1) and json fields. When you define a field as a `:map`, Kaffy2 will automatically display a textarea with a placeholder to hint that JSON content is expected. When you have an embedded schema, Kaffy2 will try to render each field inline with the form of the parent schema.
 
 ### Search
 
-Kaffy provides very basic search capabilities.
+Kaffy2 provides very basic search capabilities.
 
 Currently, only `:string` and `:text` fields are supported for search.
 
@@ -613,7 +613,7 @@ defmodule MyApp.Blog.PostAdmin do
 end
 ```
 
-Kaffy allows to search for fields across associations. The following tells kaffy to search posts by title and body and category's name and description:
+Kaffy2 allows to search for fields across associations. The following tells kaffy to search posts by title and body and category's name and description:
 
 ```elixir
 # Post has a belongs_to :category association
@@ -631,11 +631,11 @@ end
 This function takes a schema and returns a list of schema fields that you want to search.
 All the fields must be of type `:string` or `:text`.
 
-If this function is not defined, Kaffy will return all `:string` and `:text` fields by default.
+If this function is not defined, Kaffy2 will return all `:string` and `:text` fields by default.
 
 ### Authorization
 
-Kaffy supports basic authorization for individual schemas by defining `authorized?/2`.
+Kaffy2 supports basic authorization for individual schemas by defining `authorized?/2`.
 
 ```elixir
 defmodule MyApp.Blog.PostAdmin do
@@ -653,7 +653,7 @@ Note that the resource is also removed from the resources list if `authorized?/2
 
 ### Changesets
 
-Kaffy supports separate changesets for creating and updating schemas.
+Kaffy2 supports separate changesets for creating and updating schemas.
 
 Just define `create_changeset/2` and `update_changeset/2`.
 
@@ -673,7 +673,7 @@ defmodule MyApp.Blog.PostAdmin do
 end
 ```
 
-If either function is not defined, Kaffy will try calling `Post.changeset/2`.
+If either function is not defined, Kaffy2 will try calling `Post.changeset/2`.
 
 And if that is not defined, `Ecto.Changeset.change/2` will be called.
 
@@ -699,7 +699,7 @@ end
 
 #### Single Resource Actions
 
-Kaffy supports performing custom actions on single resources by defining the `resource_actions/1` function.
+Kaffy2 supports performing custom actions on single resources by defining the `resource_actions/1` function.
 
 ```elixir
 defmodule MyApp.Blog.ProductAdmin
@@ -741,7 +741,7 @@ Actions must return one of the following:
 
 #### List Actions
 
-Kaffy also supports actions on a group of resources. You can enable list actions by defining `list_actions/1`.
+Kaffy2 also supports actions on a group of resources. You can enable list actions by defining `list_actions/1`.
 
 ```elixir
 defmodule MyApp.Products.ProductAdmin do
@@ -798,7 +798,7 @@ List actions must return one of the following:
 
 Sometimes you need to execute certain actions when creating, updating, or deleting records.
 
-Kaffy has your back.
+Kaffy2 has your back.
 
 There are a few callbacks that are called every time you create, update, or delete a record.
 
@@ -873,7 +873,7 @@ end
 
 ### Overwrite actions
 
-Sometimes you may need to overwrite the way Kaffy is creating, updating, or deleting records.
+Sometimes you may need to overwrite the way Kaffy2 is creating, updating, or deleting records.
 
 You can define you own Admin function to perform those actions. This can be useful if you are creating complex records, importing files, etc...
 
@@ -907,7 +907,7 @@ end
 
 ### Scheduled Tasks
 
-Kaffy supports simple scheduled tasks. Tasks are functions that are run periodically. Behind the scenes, they are put inside `GenServer`s and supervised with a `DynamicSupervisor`.
+Kaffy2 supports simple scheduled tasks. Tasks are functions that are run periodically. Behind the scenes, they are put inside `GenServer`s and supervised with a `DynamicSupervisor`.
 
 To create scheduled tasks, simply define a `scheduled_tasks/1` function in your admin module:
 
@@ -967,7 +967,7 @@ Scheduled tasks should be used for simple, non-critical operations.
 
 ## The Driving Points
 
-A few points that encouraged the creation and development of Kaffy:
+A few points that encouraged the creation and development of Kaffy2:
 
 - Taking contexts into account.
   - Supporting contexts makes the admin interface better organized.

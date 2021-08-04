@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Kaffy Admin</title>
+        <title>Kaffy2 Admin</title>
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -137,7 +137,7 @@
 
     <body>
         <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-            <%= link Kaffy.Utils.title(), to: Kaffy.Utils.router().kaffy_home_path(@conn, :index), class: "navbar-brand col-sm-3 col-md-2 mr-0" %>
+            <%= link Kaffy2.Utils.title(), to: Kaffy2.Utils.router().kaffy_home_path(@conn, :index), class: "navbar-brand col-sm-3 col-md-2 mr-0" %>
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
                     <a class="nav-link" href="#">Sign out</a>
@@ -150,14 +150,14 @@
                 <nav class="col-md-2 d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
-                            <%= for context <- Kaffy.Utils.contexts(@conn) do %>
+                            <%= for context <- Kaffy2.Utils.contexts(@conn) do %>
                                 <li class="nav-item">
-                                    <a name="<%= context %>" class="nav-link"><strong><%= Kaffy.Utils.context_name(@conn, context) %></strong></a>
+                                    <a name="<%= context %>" class="nav-link"><strong><%= Kaffy2.Utils.context_name(@conn, context) %></strong></a>
                                     <ul style="list-style:none;">
-                                        <%= for {resource, options} <- Kaffy.Utils.schemas_for_context(@conn, context) do %>
-                                            <%= if Kaffy.ResourceAdmin.authorized?(options, @conn) do %>
+                                        <%= for {resource, options} <- Kaffy2.Utils.schemas_for_context(@conn, context) do %>
+                                            <%= if Kaffy2.ResourceAdmin.authorized?(options, @conn) do %>
                                                 <li class="nav-item">
-                                                    <%= link Kaffy.ResourceAdmin.plural_name(options), to: Kaffy.Utils.router().kaffy_resource_path(@conn, :index, context, resource), class: "nav-link" %>
+                                                    <%= link Kaffy2.ResourceAdmin.plural_name(options), to: Kaffy2.Utils.router().kaffy_resource_path(@conn, :index, context, resource), class: "nav-link" %>
                                                 </li>
                                             <% end %>
                                         <% end %>

@@ -1,4 +1,4 @@
-defmodule Kaffy.Scheduler.Task do
+defmodule Kaffy2.Scheduler.Task do
   use GenServer
 
   def start_link(args) do

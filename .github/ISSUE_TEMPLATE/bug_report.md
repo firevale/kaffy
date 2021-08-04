@@ -8,7 +8,7 @@ assignees: aesmail
 ---
 
 **Versions Used**
-Kaffy: 
+Kaffy2: 
 Phoenix: 
 Elixir: 
 

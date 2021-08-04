@@ -6,8 +6,8 @@
         </div>
     </th>
     <%= for field <- @fields do %>
-        <% field_name = Kaffy.ResourceSchema.kaffy_field_name(@my_resource[:schema], field) |> String.upcase() %>
-        <% [{order_way, order_field}] = Kaffy.ResourceQuery.get_ordering(@my_resource, @params) %>
+        <% field_name = Kaffy2.ResourceSchema.kaffy_field_name(@my_resource[:schema], field) |> String.upcase() %>
+        <% [{order_way, order_field}] = Kaffy2.ResourceQuery.get_ordering(@my_resource, @params) %>
 
         <th>
             <%= if order_field == elem(field, 0) do %>
@@ -19,15 +19,15 @@
     <% end %>
 </tr>
 
-<%= if Kaffy.ResourceSchema.has_field_filters?(@my_resource) do %>
+<%= if Kaffy2.ResourceSchema.has_field_filters?(@my_resource) do %>
     <tr>
         <th class="bg-light filter"></th>
         <%= for {field, index} <- Enum.with_index(@fields) do %>
-            <% {field, filters} = Kaffy.ResourceSchema.kaffy_field_filters(@my_resource[:schema], field) %>
+            <% {field, filters} = Kaffy2.ResourceSchema.kaffy_field_filters(@my_resource[:schema], field) %>
             <%= if filters do %>
                 <th class="bg-light filter">
                     <select class="kaffy-filter custom-select" id="kaffy-field-<%= index %>" data-field-name="<%= field %>">
-                        <option value=""><%= Kaffy.Utils.gettext("All") %></option>
+                        <option value=""><%= Kaffy2.Utils.gettext("All") %></option>
                         <%= for {human, machine} <- filters do %>
                             <option value="<%= machine %>"<%= if Map.get(@params, to_string(field)) == to_string(machine) do %> selected<% end %>><%= human %></option>
                         <% end %>

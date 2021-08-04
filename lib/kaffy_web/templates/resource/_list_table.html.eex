@@ -1,17 +1,17 @@
 <thead class="thead-dark">
     <tr>
         <%= for field <- @fields do %>
-            <th><%= Kaffy.ResourceSchema.kaffy_field_name(@my_resource[:schema], field) %></th>
+            <th><%= Kaffy2.ResourceSchema.kaffy_field_name(@my_resource[:schema], field) %></th>
         <% end %>
     </tr>
 
-    <%= if Kaffy.ResourceSchema.has_field_filters?(@my_resource) do %>
+    <%= if Kaffy2.ResourceSchema.has_field_filters?(@my_resource) do %>
         <tr>
             <%= for {field, index} <- Enum.with_index(@fields) do %>
-                <% {field, filters} = Kaffy.ResourceSchema.kaffy_field_filters(@my_resource[:schema], field) %>
+                <% {field, filters} = Kaffy2.ResourceSchema.kaffy_field_filters(@my_resource[:schema], field) %>
                 <%= if filters do %>
                     <th class="bg-light">
-                         <select class="kaffy-filter custom-select" id="kaffy-field-<%= index %>" data-field-name="<%= Kaffy.ResourceSchema.kaffy_field_name(@my_resource[:schema], field) %>">
+                         <select class="kaffy-filter custom-select" id="kaffy-field-<%= index %>" data-field-name="<%= Kaffy2.ResourceSchema.kaffy_field_name(@my_resource[:schema], field) %>">
                             <option value="">All</option>
                             <%= for {human, machine} <- filters do %>
                                 <option value="<%= machine %>"><%= human %></option>

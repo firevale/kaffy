@@ -1,16 +1,16 @@
-defmodule Kaffy.Utils do
+defmodule Kaffy2.Utils do
   @moduledoc false
 
   @doc """
-  Returns the :admin_title config if present, otherwise returns "Kaffy"
+  Returns the :admin_title config if present, otherwise returns "Kaffy2"
   """
   @spec title() :: String.t()
   def title() do
-    env(:admin_title, "Kaffy")
+    env(:admin_title, "Kaffy2")
   end
 
   @doc """
-  Returns the :admin_logo config if present, otherwise returns Kaffy default logo.
+  Returns the :admin_logo config if present, otherwise returns Kaffy2 default logo.
   """
   @spec logo(Plug.Conn.t()) :: String.t()
   def logo(conn) do
@@ -18,7 +18,7 @@ defmodule Kaffy.Utils do
   end
 
   @doc """
-  Returns the :admin_logo_mini config if present, otherwise returns Kaffy default logo.
+  Returns the :admin_logo_mini config if present, otherwise returns Kaffy2 default logo.
   """
   @spec logo_mini(Plug.Conn.t()) :: String.t()
   def logo_mini(conn) do
@@ -45,12 +45,12 @@ defmodule Kaffy.Utils do
   end
 
   @doc """
-  Returns the Repo from Kaffy configs. If it is not present, raise an exception.
+  Returns the Repo from Kaffy2 configs. If it is not present, raise an exception.
   """
   @spec repo() :: atom()
   def repo() do
     case env(:ecto_repo) do
-      nil -> raise "Must define :ecto_repo for Kaffy to work properly."
+      nil -> raise "Must define :ecto_repo for Kaffy2 to work properly."
       r -> r
     end
   end
@@ -182,7 +182,7 @@ defmodule Kaffy.Utils do
   """
   @spec context_name(Plug.Conn.t(), list()) :: String.t()
   def context_name(conn, context) do
-    default = Kaffy.ResourceAdmin.humanize_term(context)
+    default = Kaffy2.ResourceAdmin.humanize_term(context)
     get_in(full_resources(conn), [context, :name]) || default
   end
 
@@ -424,7 +424,7 @@ defmodule Kaffy.Utils do
           false -> [schema: schema]
         end
 
-      humanized_context = Kaffy.ResourceAdmin.humanize_term(context_name)
+      humanized_context = Kaffy2.ResourceAdmin.humanize_term(context_name)
       resources = Keyword.put_new(resources, context_name, name: humanized_context, resources: [])
       resources = put_in(resources, [context_name, :resources, schema_name], schema_options)
       existing_schemas = get_in(resources, [context_name, :resources]) |> Enum.sort()

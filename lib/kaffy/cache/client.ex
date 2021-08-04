@@ -1,4 +1,4 @@
-defmodule Kaffy.Cache.Client do
+defmodule Kaffy2.Cache.Client do
   use GenServer
 
   def start_link(args) do
@@ -7,7 +7,7 @@ defmodule Kaffy.Cache.Client do
 
   @impl true
   def init(_) do
-    Kaffy.Cache.Table.create_table()
+    Kaffy2.Cache.Table.create_table()
     {:ok, %{}}
   end
 
@@ -21,13 +21,13 @@ defmodule Kaffy.Cache.Client do
 
   @impl true
   def handle_call({:add, key, suffix, value, expire_after}, _from, state) do
-    result = Kaffy.Cache.Table.add_to_cache(key, suffix, value, expire_after)
+    result = Kaffy2.Cache.Table.add_to_cache(key, suffix, value, expire_after)
     {:reply, result, state}
   end
 
   @impl true
   def handle_call({:get, key, suffix}, _from, state) do
-    result = Kaffy.Cache.Table.get_from_cache(key, suffix)
+    result = Kaffy2.Cache.Table.get_from_cache(key, suffix)
     {:reply, result, state}
   end
 end

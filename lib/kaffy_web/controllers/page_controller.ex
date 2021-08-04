@@ -4,11 +4,11 @@ defmodule KaffyWeb.PageController do
   use Phoenix.Controller, namespace: KaffyWeb
 
   def index(conn, %{"slug" => slug}) do
-    case Kaffy.ResourceAdmin.find_page(conn, slug) do
+    case Kaffy2.ResourceAdmin.find_page(conn, slug) do
       nil ->
         conn
         |> put_flash(:error, "The page you are trying to visit does not exist")
-        |> redirect(to: Kaffy.Utils.router().kaffy_home_path(conn, :index))
+        |> redirect(to: Kaffy2.Utils.router().kaffy_home_path(conn, :index))
 
       page ->
         conn

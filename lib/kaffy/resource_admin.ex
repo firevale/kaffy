@@ -1,9 +1,9 @@
-defmodule Kaffy.ResourceAdmin do
-  alias Kaffy.ResourceSchema
-  alias Kaffy.Utils
+defmodule Kaffy2.ResourceAdmin do
+  alias Kaffy2.ResourceSchema
+  alias Kaffy2.Utils
 
   @moduledoc """
-  ResourceAdmin modules should be created for every schema you want to customize/configure in Kaffy.
+  ResourceAdmin modules should be created for every schema you want to customize/configure in Kaffy2.
 
   If you have a schema like `MyApp.Products.Product`, you should create an admin module with
   name `MyApp.Products.ProductAdmin` and add functions documented in this module to customize the behavior.
@@ -21,7 +21,7 @@ defmodule Kaffy.ResourceAdmin do
 
   If a function is provided, the current entry is passed to it.
 
-  If index/1 is not defined, Kaffy will return all the fields of the schema and their default values.
+  If index/1 is not defined, Kaffy2 will return all the fields of the schema and their default values.
 
   Example:
 
@@ -58,7 +58,7 @@ defmodule Kaffy.ResourceAdmin do
 
   If you want to remove a field from being rendered, just remove it from the list.
 
-  If form_fields/1 is not defined, Kaffy will return all the fields with
+  If form_fields/1 is not defined, Kaffy2 will return all the fields with
   their default types based on the schema.
 
   Example:
@@ -90,7 +90,7 @@ defmodule Kaffy.ResourceAdmin do
 
   defp set_default_field_options(fields, schema) do
     Enum.map(fields, fn {f, o} ->
-      default_options = Kaffy.ResourceSchema.default_field_options(schema, f)
+      default_options = Kaffy2.ResourceSchema.default_field_options(schema, f)
       final_options = Map.merge(default_options, o || %{})
       {f, final_options}
     end)
@@ -99,7 +99,7 @@ defmodule Kaffy.ResourceAdmin do
   @doc """
   `search_fields/1` takes a schema and must return a list of `:string` fields to search against when typing in the search box.
 
-  If `search_fields/1` is not defined, Kaffy will return all the `:string` fields of the schema.
+  If `search_fields/1` is not defined, Kaffy2 will return all the `:string` fields of the schema.
 
   Example:
 
@@ -144,7 +144,7 @@ defmodule Kaffy.ResourceAdmin do
   @doc """
   `ordering/1` takes a schema and returns how the entries should be ordered.
 
-  If `ordering/1` is not defined, Kaffy will return `[desc: :id]`.
+  If `ordering/1` is not defined, Kaffy2 will return `[desc: :id]`.
 
   Example:
 
@@ -164,7 +164,7 @@ defmodule Kaffy.ResourceAdmin do
 
   Returning false will prevent the access of this resource for the current user/request.
 
-  If `authorized?/2` is not defined, Kaffy will return true.
+  If `authorized?/2` is not defined, Kaffy2 will return true.
 
   Example:
 
@@ -181,7 +181,7 @@ defmodule Kaffy.ResourceAdmin do
   @doc """
   `create_changeset/2` takes the record and the changes and should return a changeset for creating a new record.
 
-  If `create_changeset/2` is not defined, Kaffy will try to call `schema.changeset/2`
+  If `create_changeset/2` is not defined, Kaffy2 will try to call `schema.changeset/2`
 
   and if that's not defined, `Ecto.Changeset.change/2` will be called.
 
@@ -204,7 +204,7 @@ defmodule Kaffy.ResourceAdmin do
           schema.changeset(schema_struct, changes)
 
         false ->
-          cast_fields = Kaffy.ResourceSchema.cast_fields(schema) |> Keyword.keys()
+          cast_fields = Kaffy2.ResourceSchema.cast_fields(schema) |> Keyword.keys()
           Ecto.Changeset.cast(schema_struct, changes, cast_fields)
       end
 
@@ -220,7 +220,7 @@ defmodule Kaffy.ResourceAdmin do
   @doc """
   `update_changeset/2` takes the record and the changes and should return a changeset for updating an existing record.
 
-  If `update_changeset/2` is not defined, Kaffy will try to call `schema.changeset/2`
+  If `update_changeset/2` is not defined, Kaffy2 will try to call `schema.changeset/2`
 
   and if that's not defined, `Ecto.Changeset.change/2` will be called.
 
@@ -242,7 +242,7 @@ defmodule Kaffy.ResourceAdmin do
           schema.changeset(entry, changes)
 
         false ->
-          cast_fields = Kaffy.ResourceSchema.cast_fields(schema) |> Keyword.keys()
+          cast_fields = Kaffy2.ResourceSchema.cast_fields(schema) |> Keyword.keys()
           Ecto.Changeset.cast(entry, changes, cast_fields)
       end
 
@@ -258,7 +258,7 @@ defmodule Kaffy.ResourceAdmin do
   @doc """
   This function should return a string for the singular name of a resource.
 
-  If `singular_name/1` is not defined, Kaffy will use the name of
+  If `singular_name/1` is not defined, Kaffy2 will use the name of
   the last part of the schema module (e.g. Post in MyApp.Blog.Post)
 
   This is useful for when you have a schema but you want to display its name differently.
@@ -294,7 +294,7 @@ defmodule Kaffy.ResourceAdmin do
 
   Like "Category" => "Categories" or "Person" => "People".
 
-  If `plural_name/1` is not defined, Kaffy will use the singular
+  If `plural_name/1` is not defined, Kaffy2 will use the singular
   name and add an "s" to it (e.g. Posts).
 
   Example:
@@ -328,10 +328,10 @@ defmodule Kaffy.ResourceAdmin do
   end
 
   def collect_widgets(conn) do
-    Enum.reduce(Kaffy.Utils.contexts(conn), [], fn c, all ->
+    Enum.reduce(Kaffy2.Utils.contexts(conn), [], fn c, all ->
       widgets =
-        Enum.reduce(Kaffy.Utils.schemas_for_context(conn, c), [], fn {_, resource}, all ->
-          all ++ Kaffy.ResourceAdmin.widgets(resource, conn)
+        Enum.reduce(Kaffy2.Utils.schemas_for_context(conn, c), [], fn {_, resource}, all ->
+          all ++ Kaffy2.ResourceAdmin.widgets(resource, conn)
         end)
         |> Enum.map(fn widget ->
           width = Map.get(widget, :width)
@@ -355,10 +355,10 @@ defmodule Kaffy.ResourceAdmin do
   end
 
   def collect_pages(conn) do
-    Enum.reduce(Kaffy.Utils.contexts(conn), [], fn c, all ->
+    Enum.reduce(Kaffy2.Utils.contexts(conn), [], fn c, all ->
       all ++
-        Enum.reduce(Kaffy.Utils.schemas_for_context(conn, c), [], fn {_, resource}, all ->
-          all ++ Kaffy.ResourceAdmin.custom_pages(resource, conn)
+        Enum.reduce(Kaffy2.Utils.schemas_for_context(conn, c), [], fn {_, resource}, all ->
+          all ++ Kaffy2.ResourceAdmin.custom_pages(resource, conn)
         end)
     end)
     |> Enum.sort_by(fn p -> Map.get(p, :order, 999) end)
@@ -384,14 +384,14 @@ defmodule Kaffy.ResourceAdmin do
   end
 
   def collect_links(conn, location) do
-    contexts = Kaffy.Utils.contexts(conn)
+    contexts = Kaffy2.Utils.contexts(conn)
 
     Enum.reduce(contexts, [], fn c, all ->
-      resources = Kaffy.Utils.schemas_for_context(conn, c)
+      resources = Kaffy2.Utils.schemas_for_context(conn, c)
 
       Enum.reduce(resources, all, fn {_r, options}, all ->
         links =
-          Kaffy.ResourceAdmin.custom_links(options)
+          Kaffy2.ResourceAdmin.custom_links(options)
           |> Enum.filter(fn link -> Map.get(link, :location, :sub) == location end)
 
         all ++ links

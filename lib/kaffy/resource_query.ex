@@ -1,4 +1,4 @@
-defmodule Kaffy.ResourceQuery do
+defmodule Kaffy2.ResourceQuery do
   @moduledoc false
 
   import Ecto.Query
@@ -7,7 +7,7 @@ defmodule Kaffy.ResourceQuery do
     per_page = Map.get(params, "limit", "100") |> String.to_integer()
     page = Map.get(params, "page", "1") |> String.to_integer()
     search = Map.get(params, "search", "") |> String.trim()
-    search_fields = Kaffy.ResourceAdmin.search_fields(resource)
+    search_fields = Kaffy2.ResourceAdmin.search_fields(resource)
     filtered_fields = get_filter_fields(params, resource)
     ordering = get_ordering(resource, params)
 
@@ -26,12 +26,12 @@ defmodule Kaffy.ResourceQuery do
       )
 
     {current_page, opts} =
-      case Kaffy.ResourceAdmin.custom_index_query(conn, resource, paged) do
+      case Kaffy2.ResourceAdmin.custom_index_query(conn, resource, paged) do
         {custom_query, opts} ->
-          {Kaffy.Utils.repo().all(custom_query, opts), opts}
+          {Kaffy2.Utils.repo().all(custom_query, opts), opts}
 
         custom_query ->
-          {Kaffy.Utils.repo().all(custom_query), []}
+          {Kaffy2.Utils.repo().all(custom_query), []}
       end
 
     do_cache = if search == "" and Enum.empty?(filtered_fields), do: true, else: false
@@ -40,7 +40,7 @@ defmodule Kaffy.ResourceQuery do
   end
 
   def get_ordering(resource, params) do
-    default_ordering = Kaffy.ResourceAdmin.ordering(resource)
+    default_ordering = Kaffy2.ResourceAdmin.ordering(resource)
     default_order_field = Map.get(params, "_of", "nil") |> String.to_existing_atom()
     default_order_way = Map.get(params, "_ow", "nil") |> String.to_existing_atom()
 
@@ -54,9 +54,9 @@ defmodule Kaffy.ResourceQuery do
     schema = resource[:schema]
     query = from(s in schema, where: s.id == ^id)
 
-    case Kaffy.ResourceAdmin.custom_show_query(conn, resource, query) do
-      {custom_query, opts} -> Kaffy.Utils.repo().one(custom_query, opts)
-      custom_query -> Kaffy.Utils.repo().one(custom_query)
+    case Kaffy2.ResourceAdmin.custom_show_query(conn, resource, query) do
+      {custom_query, opts} -> Kaffy2.Utils.repo().one(custom_query, opts)
+      custom_query -> Kaffy2.Utils.repo().one(custom_query)
     end
   end
 
@@ -66,7 +66,7 @@ defmodule Kaffy.ResourceQuery do
     schema = resource[:schema]
 
     from(s in schema, where: s.id in ^ids)
-    |> Kaffy.Utils.repo().all()
+    |> Kaffy2.Utils.repo().all()
   end
 
   def total_count(schema, do_cache, query, opts \\ [])
@@ -74,10 +74,10 @@ defmodule Kaffy.ResourceQuery do
   def total_count(schema, do_cache, query, opts) do
     result =
       from(s in query, select: fragment("count(1)"))
-      |> Kaffy.Utils.repo().one(opts)
+      |> Kaffy2.Utils.repo().one(opts)
 
     if do_cache and result > 100_000 do
-      Kaffy.Cache.Client.add_cache(schema, "count", result, 600)
+      Kaffy2.Cache.Client.add_cache(schema, "count", result, 600)
     end
 
     result
@@ -88,12 +88,12 @@ defmodule Kaffy.ResourceQuery do
   def cached_total_count(schema, false, query, opts), do: total_count(schema, false, query, opts)
 
   def cached_total_count(schema, do_cache, query, opts) do
-    Kaffy.Cache.Client.get_cache(schema, "count") || total_count(schema, do_cache, query, opts)
+    Kaffy2.Cache.Client.get_cache(schema, "count") || total_count(schema, do_cache, query, opts)
   end
 
   defp get_filter_fields(params, resource) do
     schema_fields =
-      Kaffy.ResourceSchema.fields(resource[:schema]) |> Enum.map(fn {k, _} -> to_string(k) end)
+      Kaffy2.ResourceSchema.fields(resource[:schema]) |> Enum.map(fn {k, _} -> to_string(k) end)
 
     filtered_fields = Enum.filter(params, fn {k, v} -> k in schema_fields and v != "" end)
 

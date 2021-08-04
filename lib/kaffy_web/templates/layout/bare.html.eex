@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><%= Kaffy.Utils.title() %> - Kaffy</title>
+    <title><%= Kaffy2.Utils.title() %> - Kaffy2</title>
     <link rel="stylesheet" href="/kaffy/assets/vendors/fontawesome/css/all.css">
     <link rel="stylesheet" href="/kaffy/assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="/kaffy/assets/scss/style.css">
     <link rel="stylesheet" href="/kaffy/assets/vendors/flatpickr/flatpickr.min.css">
     <link rel="stylesheet" href="/kaffy/assets/css/kaffy.css">
     <link rel="shortcut icon" href="/kaffy/assets/images/favicon/favicon-32x32.png" />
-    <%= for css <- Kaffy.Utils.extensions(@conn).stylesheets do %>
+    <%= for css <- Kaffy2.Utils.extensions(@conn).stylesheets do %>
       <%= css %>
     <% end %>
     <script src="/kaffy/assets/vendors/js/vendor.bundle.base.js"></script>
@@ -19,11 +19,11 @@
     <div class="container-scroller">
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <%= link to: Kaffy.Utils.router().kaffy_home_path(@conn, :index), class: "navbar-brand brand-logo" do %>
-            <img src="<%= Kaffy.Utils.logo(@conn) %>" alt="logo" />
+          <%= link to: Kaffy2.Utils.router().kaffy_home_path(@conn, :index), class: "navbar-brand brand-logo" do %>
+            <img src="<%= Kaffy2.Utils.logo(@conn) %>" alt="logo" />
           <% end %>
-          <%= link to: Kaffy.Utils.router().kaffy_home_path(@conn, :index), class: "navbar-brand brand-logo-mini" do %>
-            <img src="<%= Kaffy.Utils.logo_mini(@conn) %>" alt="logo" />
+          <%= link to: Kaffy2.Utils.router().kaffy_home_path(@conn, :index), class: "navbar-brand brand-logo-mini" do %>
+            <img src="<%= Kaffy2.Utils.logo_mini(@conn) %>" alt="logo" />
           <% end %>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -40,7 +40,7 @@
       <div class="container-fluid page-body-wrapper">
         <div class="main-panel">
           <div class="content-wrapper">
-            <%= if Kaffy.Utils.phoenix_version?("1.4.") do %>
+            <%= if Kaffy2.Utils.phoenix_version?("1.4.") do %>
               <%= render(@view_module, @view_template, assigns) %>
             <% else %>
               <%= @inner_content %>
@@ -49,7 +49,7 @@
 
           <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2020 Kaffy. All rights reserved.</span>
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2020 Kaffy2. All rights reserved.</span>
             </div>
           </footer>
 

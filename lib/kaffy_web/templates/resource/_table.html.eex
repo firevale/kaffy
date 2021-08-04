@@ -13,10 +13,10 @@
                     </div>
                 </td>
                 <%= for {field, index} <- Enum.with_index(@fields) do %>
-                    <%= if index == 0 and Kaffy.ResourceAdmin.show_edit(@my_resource) do %>
-                        <td><%= link Kaffy.ResourceSchema.kaffy_field_value(@conn, entry, field), to: Kaffy.Utils.router().kaffy_resource_path(@conn, :show, @context, @resource, entry.id) %></td>
+                    <%= if index == 0 and Kaffy2.ResourceAdmin.show_edit(@my_resource) do %>
+                        <td><%= link Kaffy2.ResourceSchema.kaffy_field_value(@conn, entry, field), to: Kaffy2.Utils.router().kaffy_resource_path(@conn, :show, @context, @resource, entry.id) %></td>
                     <% else %>
-                        <td><%= Kaffy.ResourceSchema.kaffy_field_value(@conn, entry, field) %></td>
+                        <td><%= Kaffy2.ResourceSchema.kaffy_field_value(@conn, entry, field) %></td>
                     <% end %>
                 <% end %>
             </tr>

@@ -1,4 +1,4 @@
-defmodule Kaffy.ResourceForm do
+defmodule Kaffy2.ResourceForm do
   use Phoenix.HTML
 
   def form_label_string({field, options}), do: Map.get(options, :label, field)
@@ -14,7 +14,7 @@ defmodule Kaffy.ResourceForm do
 
   def bare_form_field(resource, form, {field, options}) do
     options = options || %{}
-    type = Map.get(options, :type, Kaffy.ResourceSchema.field_type(resource[:schema], field))
+    type = Map.get(options, :type, Kaffy2.ResourceSchema.field_type(resource[:schema], field))
     permission = Map.get(options, :permission, :write)
     choices = Map.get(options, :choices)
 
@@ -25,7 +25,7 @@ defmodule Kaffy.ResourceForm do
       permission == :read ->
         content_tag(
           :div,
-          label(form, field, Kaffy.ResourceSchema.kaffy_field_value(resource[:schema], field))
+          label(form, field, Kaffy2.ResourceSchema.kaffy_field_value(resource[:schema], field))
         )
 
       true ->
@@ -39,7 +39,7 @@ defmodule Kaffy.ResourceForm do
     options = options || %{}
 
     type =
-      Map.get(options, :type, Kaffy.ResourceSchema.field_type(changeset.data.__struct__, field))
+      Map.get(options, :type, Kaffy2.ResourceSchema.field_type(changeset.data.__struct__, field))
 
     opts =
       if type == :textarea do
@@ -74,7 +74,7 @@ defmodule Kaffy.ResourceForm do
   end
 
   # def form_field(changeset, form, {field, options}, opts) do
-  #   type = Kaffy.ResourceSchema.field_type(changeset.data.__struct__, field)
+  #   type = Kaffy2.ResourceSchema.field_type(changeset.data.__struct__, field)
   #   build_html_input(changeset.data, form, {field, options}, type, opts)
   # end
 
@@ -85,8 +85,8 @@ defmodule Kaffy.ResourceForm do
 
     case type do
       {:embed, _} ->
-        embed = Kaffy.ResourceSchema.embed_struct(schema, field)
-        embed_fields = Kaffy.ResourceSchema.fields(embed)
+        embed = Kaffy2.ResourceSchema.embed_struct(schema, field)
+        embed_fields = Kaffy2.ResourceSchema.fields(embed)
         embed_changeset = Ecto.Changeset.change(Map.get(data, field) || embed.__struct__)
 
         inputs_for(form, field, fn fp ->
@@ -108,13 +108,13 @@ defmodule Kaffy.ResourceForm do
         end)
 
       :id ->
-        case Kaffy.ResourceSchema.primary_key(schema) == [field] do
+        case Kaffy2.ResourceSchema.primary_key(schema) == [field] do
           true -> text_input(form, field, opts)
           false -> text_or_assoc(conn, schema, form, field, opts)
         end
 
       :binary_id ->
-        case Kaffy.ResourceSchema.primary_key(schema) == [field] do
+        case Kaffy2.ResourceSchema.primary_key(schema) == [field] do
           true -> text_input(form, field, opts)
           false -> text_or_assoc(conn, schema, form, field, opts)
         end
@@ -165,7 +165,7 @@ defmodule Kaffy.ResourceForm do
 
         value =
           cond do
-            is_map(value) -> Kaffy.Utils.json().encode!(value, escape: :html_safe, pretty: true)
+            is_map(value) -> Kaffy2.Utils.json().encode!(value, escape: :html_safe, pretty: true)
             true -> value
           end
 
@@ -175,7 +175,7 @@ defmodule Kaffy.ResourceForm do
         value =
           data
           |> Map.get(field, "")
-          |> Kaffy.Utils.json().encode!(escape: :html_safe, pretty: true)
+          |> Kaffy2.Utils.json().encode!(escape: :html_safe, pretty: true)
 
         textarea(form, field, [value: value, rows: 4, placeholder: "JSON Content"] ++ opts)
 
@@ -254,26 +254,26 @@ defmodule Kaffy.ResourceForm do
 
   defp text_or_assoc(conn, schema, form, field, opts) do
     actual_assoc =
-      Enum.filter(Kaffy.ResourceSchema.associations(schema), fn a ->
-        Kaffy.ResourceSchema.association(schema, a).owner_key == field
+      Enum.filter(Kaffy2.ResourceSchema.associations(schema), fn a ->
+        Kaffy2.ResourceSchema.association(schema, a).owner_key == field
       end)
       |> Enum.at(0)
 
     field_no_id =
       case actual_assoc do
         nil -> field
-        _ -> Kaffy.ResourceSchema.association(schema, actual_assoc).field
+        _ -> Kaffy2.ResourceSchema.association(schema, actual_assoc).field
       end
 
-    case field_no_id in Kaffy.ResourceSchema.associations(schema) do
+    case field_no_id in Kaffy2.ResourceSchema.associations(schema) do
       true ->
-        assoc = Kaffy.ResourceSchema.association_schema(schema, field_no_id)
-        option_count = Kaffy.ResourceQuery.cached_total_count(assoc, true, assoc)
+        assoc = Kaffy2.ResourceSchema.association_schema(schema, field_no_id)
+        option_count = Kaffy2.ResourceQuery.cached_total_count(assoc, true, assoc)
 
         case option_count > 100 do
           true ->
-            target_context = Kaffy.Utils.get_context_for_schema(conn, assoc)
-            target_resource = Kaffy.Utils.get_schema_key(conn, target_context, assoc)
+            target_context = Kaffy2.Utils.get_context_for_schema(conn, assoc)
+            target_resource = Kaffy2.Utils.get_schema_key(conn, target_context, assoc)
 
             content_tag :div, class: "input-group" do
               [
@@ -286,7 +286,7 @@ defmodule Kaffy.ResourceForm do
                   content_tag :span, class: "input-group-text", id: field do
                     link(content_tag(:i, "", class: "fas fa-search"),
                       to:
-                        Kaffy.Utils.router().kaffy_resource_path(
+                        Kaffy2.Utils.router().kaffy_resource_path(
                           conn,
                           :index,
                           target_context,
@@ -303,14 +303,14 @@ defmodule Kaffy.ResourceForm do
             end
 
           false ->
-            options = Kaffy.Utils.repo().all(assoc)
+            options = Kaffy2.Utils.repo().all(assoc)
 
-            fields = Kaffy.ResourceSchema.fields(assoc)
+            fields = Kaffy2.ResourceSchema.fields(assoc)
 
             string_fields =
               Enum.filter(fields, fn {_f, options} ->
                 options.type == :string or
-                  (Kaffy.Utils.is_module(options.type) and
+                  (Kaffy2.Utils.is_module(options.type) and
                      Kernel.function_exported?(options.type, :type, 0) and
                      options.type.type == :string)
               end)
@@ -353,7 +353,7 @@ defmodule Kaffy.ResourceForm do
 
       messages ->
         error_msg =
-          Kaffy.ResourceAdmin.humanize_term(field) <> " " <> Enum.join(messages, ", ") <> "!"
+          Kaffy2.ResourceAdmin.humanize_term(field) <> " " <> Enum.join(messages, ", ") <> "!"
 
         {error_msg, "is-invalid"}
     end
@@ -373,9 +373,9 @@ defmodule Kaffy.ResourceForm do
   defp build_changeset_value(value), do: to_string(value)
 
   def kaffy_input(conn, changeset, form, field, options) do
-    ft = Kaffy.ResourceSchema.field_type(changeset.data.__struct__, field)
+    ft = Kaffy2.ResourceSchema.field_type(changeset.data.__struct__, field)
 
-    case Kaffy.Utils.is_module(ft) && Keyword.has_key?(ft.__info__(:functions), :render_form) do
+    case Kaffy2.Utils.is_module(ft) && Keyword.has_key?(ft.__info__(:functions), :render_form) do
       true ->
         ft.render_form(conn, changeset, form, field, options)
 

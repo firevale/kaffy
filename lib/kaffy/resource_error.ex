@@ -1,4 +1,4 @@
-defmodule Kaffy.ResourceError do
+defmodule Kaffy2.ResourceError do
   use Phoenix.HTML
 
   def form_error_border_class(form, default_class) do
@@ -35,7 +35,7 @@ defmodule Kaffy.ResourceError do
                     [
                       content_tag(:i, "", class: "fa fa-exclamation-circle"),
                       content_tag(:strong, "Error: "),
-                      content_tag(:span, Kaffy.ResourceAdmin.humanize_term(field) <> " " <> msg)
+                      content_tag(:span, Kaffy2.ResourceAdmin.humanize_term(field) <> " " <> msg)
                     ]
                   end
                 end)

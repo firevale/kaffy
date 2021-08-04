@@ -1,5 +1,5 @@
-defmodule Kaffy.ResourceParams do
-  alias Kaffy.ResourceSchema
+defmodule Kaffy2.ResourceParams do
+  alias Kaffy2.ResourceSchema
 
   def decode_map_fields(resource, schema, params) do
     map_fields = ResourceSchema.get_map_fields(schema) |> Enum.map(fn {f, _} -> to_string(f) end)
@@ -8,7 +8,7 @@ defmodule Kaffy.ResourceParams do
       Map.get(params, resource, %{})
       |> Enum.map(fn {k, v} ->
         case k in map_fields && String.length(v) > 0 do
-          true -> {k, Kaffy.Utils.json().decode!(v)}
+          true -> {k, Kaffy2.Utils.json().decode!(v)}
           false -> {k, v}
         end
       end)
@@ -26,7 +26,7 @@ defmodule Kaffy.ResourceParams do
           json_string = get_in(attrs, [to_string(e), to_string(f)])
 
           if json_string && String.length(json_string) > 0 do
-            json_object = Kaffy.Utils.json().decode!(json_string)
+            json_object = Kaffy2.Utils.json().decode!(json_string)
             put_in(p, [to_string(e), to_string(f)], json_object)
           else
             p

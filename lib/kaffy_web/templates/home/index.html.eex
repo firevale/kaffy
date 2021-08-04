@@ -4,14 +4,14 @@
     <ul class="breadcrumb">
         <li class="breadcrumb-item active" aria-current="page">
         <span>
-            <%= Kaffy.Utils.gettext("Overview") %> <i class="fas fa-feather icon-sm text-primary align-middle"></i>
+            <%= Kaffy2.Utils.gettext("Overview") %> <i class="fas fa-feather icon-sm text-primary align-middle"></i>
         </span>
         </li>
     </ul>
     </nav>
 </div>
 
-<% widgets = Kaffy.ResourceAdmin.collect_widgets(@conn) %>
+<% widgets = Kaffy2.ResourceAdmin.collect_widgets(@conn) %>
 
 <%= if Enum.empty?(widgets) do %>
 

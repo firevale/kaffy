@@ -1,4 +1,4 @@
-defmodule Kaffy.Cache.Table do
+defmodule Kaffy2.Cache.Table do
   @moduledoc false
 
   @table_name :kaffy_cache

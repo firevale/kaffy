@@ -1,4 +1,4 @@
-defmodule Kaffy do
+defmodule Kaffy2 do
   @moduledoc false
 
   def hello do

@@ -3,7 +3,7 @@ defmodule KaffyWeb.ResourceController do
 
   use Phoenix.Controller, namespace: KaffyWeb
   use Phoenix.HTML
-  alias Kaffy.Pagination
+  alias Kaffy2.Pagination
 
   def index(
         conn,
@@ -15,15 +15,15 @@ defmodule KaffyWeb.ResourceController do
           "pick" => _field
         } = params
       ) do
-    my_resource = Kaffy.Utils.get_resource(conn, context, resource)
+    my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
 
     case can_proceed?(my_resource, conn) do
       false ->
         unauthorized_access(conn)
 
       true ->
-        fields = Kaffy.ResourceAdmin.index(my_resource)
-        {filtered_count, entries} = Kaffy.ResourceQuery.list_resource(conn, my_resource, params)
+        fields = Kaffy2.ResourceAdmin.index(my_resource)
+        {filtered_count, entries} = Kaffy2.ResourceQuery.list_resource(conn, my_resource, params)
 
         items_per_page =
           Map.get(params, "limit", "100")
@@ -61,15 +61,15 @@ defmodule KaffyWeb.ResourceController do
   end
 
   def index(conn, %{"context" => context, "resource" => resource} = params) do
-    my_resource = Kaffy.Utils.get_resource(conn, context, resource)
+    my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
 
     case can_proceed?(my_resource, conn) do
       false ->
         unauthorized_access(conn)
 
       true ->
-        fields = Kaffy.ResourceAdmin.index(my_resource)
-        {filtered_count, entries} = Kaffy.ResourceQuery.list_resource(conn, my_resource, params)
+        fields = Kaffy2.ResourceAdmin.index(my_resource)
+        {filtered_count, entries} = Kaffy2.ResourceQuery.list_resource(conn, my_resource, params)
 
         items_per_page =
           Map.get(params, "limit", "100")
@@ -107,16 +107,16 @@ defmodule KaffyWeb.ResourceController do
   end
 
   def show(conn, %{"context" => context, "resource" => resource, "id" => id}) do
-    my_resource = Kaffy.Utils.get_resource(conn, context, resource)
+    my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
     schema = my_resource[:schema]
-    resource_name = Kaffy.ResourceAdmin.singular_name(my_resource)
+    resource_name = Kaffy2.ResourceAdmin.singular_name(my_resource)
 
     case can_proceed?(my_resource, conn) do
       false ->
         unauthorized_access(conn)
 
       true ->
-        if entry = Kaffy.ResourceQuery.fetch_resource(conn, my_resource, id) do
+        if entry = Kaffy2.ResourceQuery.fetch_resource(conn, my_resource, id) do
           changeset = Ecto.Changeset.change(entry)
 
           render(
@@ -134,19 +134,19 @@ defmodule KaffyWeb.ResourceController do
         else
           put_flash(conn, :error, "The resource you are trying to visit does not exist!")
           |> redirect(
-            to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
+            to: Kaffy2.Utils.router().kaffy_resource_path(conn, :index, context, resource)
           )
         end
     end
   end
 
   def update(conn, %{"context" => context, "resource" => resource, "id" => id} = params) do
-    my_resource = Kaffy.Utils.get_resource(conn, context, resource)
+    my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
     schema = my_resource[:schema]
-    params = Kaffy.ResourceParams.decode_map_fields(resource, schema, params)
+    params = Kaffy2.ResourceParams.decode_map_fields(resource, schema, params)
 
     resource_name =
-      Kaffy.ResourceAdmin.singular_name(my_resource)
+      Kaffy2.ResourceAdmin.singular_name(my_resource)
       |> String.capitalize()
 
     case can_proceed?(my_resource, conn) do
@@ -154,32 +154,32 @@ defmodule KaffyWeb.ResourceController do
         unauthorized_access(conn)
 
       true ->
-        entry = Kaffy.ResourceQuery.fetch_resource(conn, my_resource, id)
+        entry = Kaffy2.ResourceQuery.fetch_resource(conn, my_resource, id)
         changes = Map.get(params, resource, %{})
 
-        case Kaffy.ResourceCallbacks.update_callbacks(conn, my_resource, entry, changes) do
+        case Kaffy2.ResourceCallbacks.update_callbacks(conn, my_resource, entry, changes) do
           {:ok, entry} ->
             conn = put_flash(conn, :success, "#{resource_name} saved successfully")
 
             save_button = Map.get(params, "submit", "Save")
 
-            save = Kaffy.Utils.gettext("Save")
-            save_and_add_another = Kaffy.Utils.gettext("Save and add another")
-            save_and_continue_editing = Kaffy.Utils.gettext("Save and continue editing")
+            save = Kaffy2.Utils.gettext("Save")
+            save_and_add_another = Kaffy2.Utils.gettext("Save and add another")
+            save_and_continue_editing = Kaffy2.Utils.gettext("Save and continue editing")
 
             case save_button do
               ^save ->
                 conn
                 |> put_flash(:success, "#{resource_name} saved successfully")
                 |> redirect(
-                  to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
+                  to: Kaffy2.Utils.router().kaffy_resource_path(conn, :index, context, resource)
                 )
 
               ^save_and_add_another ->
                 conn
                 |> put_flash(:success, "#{resource_name} saved successfully")
                 |> redirect(
-                  to: Kaffy.Utils.router().kaffy_resource_path(conn, :new, context, resource)
+                  to: Kaffy2.Utils.router().kaffy_resource_path(conn, :new, context, resource)
                 )
 
               ^save_and_continue_editing ->
@@ -230,8 +230,8 @@ defmodule KaffyWeb.ResourceController do
   end
 
   def new(conn, %{"context" => context, "resource" => resource}) do
-    my_resource = Kaffy.Utils.get_resource(conn, context, resource)
-    resource_name = Kaffy.ResourceAdmin.singular_name(my_resource)
+    my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
+    resource_name = Kaffy2.ResourceAdmin.singular_name(my_resource)
 
     case can_proceed?(my_resource, conn) do
       false ->
@@ -239,7 +239,7 @@ defmodule KaffyWeb.ResourceController do
 
       true ->
         changeset =
-          Kaffy.ResourceAdmin.create_changeset(my_resource, %{})
+          Kaffy2.ResourceAdmin.create_changeset(my_resource, %{})
           |> Map.put(:errors, [])
 
         render(
@@ -256,34 +256,34 @@ defmodule KaffyWeb.ResourceController do
   end
 
   def create(conn, %{"context" => context, "resource" => resource} = params) do
-    my_resource = Kaffy.Utils.get_resource(conn, context, resource)
-    params = Kaffy.ResourceParams.decode_map_fields(resource, my_resource[:schema], params)
+    my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
+    params = Kaffy2.ResourceParams.decode_map_fields(resource, my_resource[:schema], params)
     changes = Map.get(params, resource, %{})
-    resource_name = Kaffy.ResourceAdmin.singular_name(my_resource)
+    resource_name = Kaffy2.ResourceAdmin.singular_name(my_resource)
 
     case can_proceed?(my_resource, conn) do
       false ->
         unauthorized_access(conn)
 
       true ->
-        case Kaffy.ResourceCallbacks.create_callbacks(conn, my_resource, changes) do
+        case Kaffy2.ResourceCallbacks.create_callbacks(conn, my_resource, changes) do
           {:ok, entry} ->
-            save = Kaffy.Utils.gettext("Save")
-            save_and_add_another = Kaffy.Utils.gettext("Save and add another")
-            save_and_continue_editing = Kaffy.Utils.gettext("Save and continue editing")
+            save = Kaffy2.Utils.gettext("Save")
+            save_and_add_another = Kaffy2.Utils.gettext("Save and add another")
+            save_and_continue_editing = Kaffy2.Utils.gettext("Save and continue editing")
 
             case Map.get(params, "submit", "Save") do
               ^save ->
                 put_flash(conn, :success, "Created a new #{resource_name} successfully")
                 |> redirect(
-                  to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
+                  to: Kaffy2.Utils.router().kaffy_resource_path(conn, :index, context, resource)
                 )
 
               ^save_and_add_another ->
                 conn
                 |> put_flash(:success, "#{resource_name} saved successfully")
                 |> redirect(
-                  to: Kaffy.Utils.router().kaffy_resource_path(conn, :new, context, resource)
+                  to: Kaffy2.Utils.router().kaffy_resource_path(conn, :new, context, resource)
                 )
 
               ^save_and_continue_editing ->
@@ -322,20 +322,20 @@ defmodule KaffyWeb.ResourceController do
   end
 
   def delete(conn, %{"context" => context, "resource" => resource, "id" => id}) do
-    my_resource = Kaffy.Utils.get_resource(conn, context, resource)
+    my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
 
     case can_proceed?(my_resource, conn) do
       false ->
         unauthorized_access(conn)
 
       true ->
-        entry = Kaffy.ResourceQuery.fetch_resource(conn, my_resource, id)
+        entry = Kaffy2.ResourceQuery.fetch_resource(conn, my_resource, id)
 
-        case Kaffy.ResourceCallbacks.delete_callbacks(conn, my_resource, entry) do
+        case Kaffy2.ResourceCallbacks.delete_callbacks(conn, my_resource, entry) do
           {:ok, _deleted} ->
             put_flash(conn, :success, "The record was deleted successfully")
             |> redirect(
-              to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource)
+              to: Kaffy2.Utils.router().kaffy_resource_path(conn, :index, context, resource)
             )
 
           {:error, %Ecto.Changeset{} = _changeset} ->
@@ -362,9 +362,9 @@ defmodule KaffyWeb.ResourceController do
           "action_key" => action_key
         }
       ) do
-    my_resource = Kaffy.Utils.get_resource(conn, context, resource)
-    entry = Kaffy.ResourceQuery.fetch_resource(conn, my_resource, id)
-    actions = Kaffy.ResourceAdmin.resource_actions(my_resource, conn)
+    my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
+    entry = Kaffy2.ResourceQuery.fetch_resource(conn, my_resource, id)
+    actions = Kaffy2.ResourceAdmin.resource_actions(my_resource, conn)
     action_record = get_action_record(actions, action_key)
 
     case action_record.action.(conn, entry) do
@@ -386,14 +386,14 @@ defmodule KaffyWeb.ResourceController do
         conn,
         %{"context" => context, "resource" => resource, "action_key" => action_key} = params
       ) do
-    my_resource = Kaffy.Utils.get_resource(conn, context, resource)
+    my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
 
     ids =
       Map.get(params, "ids", "")
       |> String.split(",")
 
-    entries = Kaffy.ResourceQuery.fetch_list(my_resource, ids)
-    actions = Kaffy.ResourceAdmin.list_actions(my_resource, conn)
+    entries = Kaffy2.ResourceQuery.fetch_list(my_resource, ids)
+    actions = Kaffy2.ResourceAdmin.list_actions(my_resource, conn)
     action_record = get_action_record(actions, action_key)
     kaffy_inputs = Map.get(params, "kaffy-input", %{})
 
@@ -406,33 +406,33 @@ defmodule KaffyWeb.ResourceController do
     case result do
       :ok ->
         put_flash(conn, :success, "Action performed successfully")
-        |> redirect(to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource))
+        |> redirect(to: Kaffy2.Utils.router().kaffy_resource_path(conn, :index, context, resource))
 
       {:error, error_msg} ->
         put_flash(conn, :error, error_msg)
-        |> redirect(to: Kaffy.Utils.router().kaffy_resource_path(conn, :index, context, resource))
+        |> redirect(to: Kaffy2.Utils.router().kaffy_resource_path(conn, :index, context, resource))
     end
   end
 
   # def export(conn, %{"context" => context, "resource" => resource}) do
-  #   my_resource = Kaffy.Utils.get_resource(conn, context, resource)
+  #   my_resource = Kaffy2.Utils.get_resource(conn, context, resource)
   # end
 
   defp can_proceed?(resource, conn) do
-    Kaffy.ResourceAdmin.authorized?(resource, conn)
+    Kaffy2.ResourceAdmin.authorized?(resource, conn)
   end
 
   defp unauthorized_access(conn) do
     conn
     |> put_flash(:error, "You are not authorized to access that page")
-    |> redirect(to: Kaffy.Utils.router().kaffy_home_path(conn, :index))
+    |> redirect(to: Kaffy2.Utils.router().kaffy_home_path(conn, :index))
   end
 
   defp redirect_to_resource(conn, context, resource, entry) do
     redirect(
       conn,
       to:
-        Kaffy.Utils.router().kaffy_resource_path(
+        Kaffy2.Utils.router().kaffy_resource_path(
           conn,
           :show,
           context,

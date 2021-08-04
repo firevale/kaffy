@@ -1,11 +1,11 @@
 defmodule KaffyTest do
   use ExUnit.Case
-  doctest Kaffy
+  doctest Kaffy2
   alias KaffyTest.Schemas.{Person, Pet}
   alias KaffyTest.Admin.PersonAdmin
 
   test "greets the world" do
-    assert Kaffy.hello() == :world
+    assert Kaffy2.hello() == :world
   end
 
   test "creating a person" do
@@ -20,8 +20,8 @@ defmodule KaffyTest do
     assert is_nil(pet.name)
   end
 
-  describe "Kaffy.ResourceSchema" do
-    alias Kaffy.ResourceSchema
+  describe "Kaffy2.ResourceSchema" do
+    alias Kaffy2.ResourceSchema
 
     test "excluded_fields should return primary keys" do
       assert [:id] == ResourceSchema.excluded_fields(Person)
@@ -81,12 +81,12 @@ defmodule KaffyTest do
     end
   end
 
-  describe "Kaffy.ResourceAdmin" do
-    alias Kaffy.ResourceAdmin
+  describe "Kaffy2.ResourceAdmin" do
+    alias Kaffy2.ResourceAdmin
 
     # [Qizot] I don't know if this test should be valid anymore if associations are allowed
     # test "index/1 should return a keyword list of fields and their values" do
-    #   assert Kaffy.ResourceSchema.fields(Person) == ResourceAdmin.index(schema: Person)
+    #   assert Kaffy2.ResourceSchema.fields(Person) == ResourceAdmin.index(schema: Person)
     #   custom_index = ResourceAdmin.index(schema: Person, admin: PersonAdmin)
     #   assert [:name, :married] == Keyword.keys(custom_index)
     # end

@@ -80,7 +80,7 @@ defmodule ActionsTest do
 
   defmodule FakeRouter do
     use Phoenix.Router
-    use Kaffy.Routes, scope: "/admin"
+    use Kaffy2.Routes, scope: "/admin"
   end
 
   setup do
@@ -114,7 +114,7 @@ defmodule ActionsTest do
   end
 
   test "resource controller accepts list of actions", %{conn: conn} do
-    with_mock Kaffy.ResourceQuery, fetch_resource: fn _, _, _ -> %{id: "id"} end do
+    with_mock Kaffy2.ResourceQuery, fetch_resource: fn _, _, _ -> %{id: "id"} end do
       result_conn =
         ResourceController.single_action(conn, %{
           "context" => "list",
@@ -128,7 +128,7 @@ defmodule ActionsTest do
   end
 
   test "resource controller accepts map of actions", %{conn: conn} do
-    with_mock Kaffy.ResourceQuery, fetch_resource: fn _, _, _ -> %{id: "id"} end do
+    with_mock Kaffy2.ResourceQuery, fetch_resource: fn _, _, _ -> %{id: "id"} end do
       result_conn =
         ResourceController.single_action(conn, %{
           "context" => "map",

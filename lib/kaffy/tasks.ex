@@ -1,6 +1,6 @@
-defmodule Kaffy.Tasks do
+defmodule Kaffy2.Tasks do
   def collect_tasks() do
-    Kaffy.Utils.get_task_modules()
+    Kaffy2.Utils.get_task_modules()
     |> Enum.map(fn m ->
       m.__info__(:functions)
       |> Enum.filter(fn {f, _} -> String.starts_with?(to_string(f), "task_") end)

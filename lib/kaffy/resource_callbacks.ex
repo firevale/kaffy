@@ -1,11 +1,11 @@
-defmodule Kaffy.ResourceCallbacks do
+defmodule Kaffy2.ResourceCallbacks do
   @moduledoc false
 
-  alias Kaffy.Utils
+  alias Kaffy2.Utils
 
   def create_callbacks(conn, resource, changes) do
-    changeset = Kaffy.ResourceAdmin.create_changeset(resource, changes)
-    repo = Kaffy.Utils.repo()
+    changeset = Kaffy2.ResourceAdmin.create_changeset(resource, changes)
+    repo = Kaffy2.Utils.repo()
 
     repo.transaction(fn ->
       result =
@@ -28,7 +28,7 @@ defmodule Kaffy.ResourceCallbacks do
       {:ok, entry}
     else
       {:error, :not_found} ->
-        Kaffy.Utils.repo().insert(changeset)
+        Kaffy2.Utils.repo().insert(changeset)
 
       unexpected_error ->
         {:error, unexpected_error}
@@ -36,8 +36,8 @@ defmodule Kaffy.ResourceCallbacks do
   end
 
   def update_callbacks(conn, resource, entry, changes) do
-    changeset = Kaffy.ResourceAdmin.update_changeset(resource, entry, changes)
-    repo = Kaffy.Utils.repo()
+    changeset = Kaffy2.ResourceAdmin.update_changeset(resource, entry, changes)
+    repo = Kaffy2.Utils.repo()
 
     repo.transaction(fn ->
       result =
@@ -60,7 +60,7 @@ defmodule Kaffy.ResourceCallbacks do
       {:ok, entry}
     else
       {:error, :not_found} ->
-        Kaffy.Utils.repo().update(changeset)
+        Kaffy2.Utils.repo().update(changeset)
 
       unexpected_error ->
         {:error, unexpected_error}
@@ -68,7 +68,7 @@ defmodule Kaffy.ResourceCallbacks do
   end
 
   def delete_callbacks(conn, resource, entry) do
-    repo = Kaffy.Utils.repo()
+    repo = Kaffy2.Utils.repo()
 
     repo.transaction(fn ->
       result =
@@ -163,7 +163,7 @@ defmodule Kaffy.ResourceCallbacks do
       {:ok, entry}
     else
       {:error, :not_found} ->
-        Kaffy.Utils.repo().delete(changeset)
+        Kaffy2.Utils.repo().delete(changeset)
 
       unexpected_error ->
         {:error, unexpected_error}
@@ -171,7 +171,7 @@ defmodule Kaffy.ResourceCallbacks do
   end
 
   defp before_delete(conn, resource, entry) do
-    changeset = Kaffy.ResourceAdmin.update_changeset(resource, entry, %{})
+    changeset = Kaffy2.ResourceAdmin.update_changeset(resource, entry, %{})
 
     Utils.get_assigned_value_or_default(
       resource,
@@ -193,7 +193,7 @@ defmodule Kaffy.ResourceCallbacks do
   end
 
   defp after_delete(conn, resource, entry) do
-    # changeset = Kaffy.ResourceAdmin.update_changeset(resource, entry, %{})
+    # changeset = Kaffy2.ResourceAdmin.update_changeset(resource, entry, %{})
 
     Utils.get_assigned_value_or_default(
       resource,

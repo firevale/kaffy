@@ -1,4 +1,4 @@
-defmodule Kaffy.Pagination do
+defmodule Kaffy2.Pagination do
   @moduledoc false
 
   # number of pages to show on the showleft/right of the current page

@@ -1,5 +1,5 @@
-defmodule Kaffy.PaginationTest do
-  alias Kaffy.Pagination
+defmodule Kaffy2.PaginationTest do
+  alias Kaffy2.Pagination
   use ExUnit.Case
 
   # testing for get_pages(current_page, total_page)

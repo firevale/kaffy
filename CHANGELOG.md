@@ -31,11 +31,11 @@
 - Decimal values are displayed properly on the index page.
 - Improved layout for mobile screens.
 - First column on index page is the first field in your schema.
-- Ability to override Kaffy's `insert`, `update`, and `delete` functions to customize how the function works.
+- Ability to override Kaffy2's `insert`, `update`, and `delete` functions to customize how the function works.
 - Moved scheduled tasks to their own modules and they have their own option in config.
 - Improved alert message styles.
 - Much improved pagination UI.
-- Ability to customize the query Kaffy uses for the index and show pages.
+- Ability to customize the query Kaffy2 uses for the index and show pages.
 - A more flexible and customizable way to define resource and admin modules.
 - Added a `help_text` option to `form_fields` to display a helpful text next to the field.
 
@@ -52,7 +52,7 @@
 #### Bug Fixes
 
 - The "Select all" checkbox didn't work properly (thanks @areski).
-- Kaffy crashed when opening the page to select a record for the belogns_to association.
+- Kaffy2 crashed when opening the page to select a record for the belogns_to association.
 
 #### Enhancements
 
@@ -195,7 +195,7 @@
 
 #### Bug Fixes
 
-- Kaffy didn't compile with elixir < 1.10 due to the use of `Kernel.is_struct`. It is currently tested with elixir 1.7+
+- Kaffy2 didn't compile with elixir < 1.10 due to the use of `Kernel.is_struct`. It is currently tested with elixir 1.7+
 - Sometimes new records couldn't be created if they have `:map` fields.
 
 ### v0.3.1 (2020-05-12)
@@ -240,11 +240,11 @@
 
 #### New Features
 
-- Kaffy will now auto-detect your schemas and admin modules if they're not set explicitly. See the README file for more.
+- Kaffy2 will now auto-detect your schemas and admin modules if they're not set explicitly. See the README file for more.
 
 #### Enhancements
 
-- Kaffy now supports phoenix 1.4 and higher.
+- Kaffy2 now supports phoenix 1.4 and higher.
 - Removed some deprecation warnings when compiling kaffy
 - Massively simplified configurations. The only required configs now are `otp_app`, `ecto_repo`, and `router`.
 
