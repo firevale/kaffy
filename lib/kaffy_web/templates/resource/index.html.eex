@@ -53,7 +53,7 @@
           </div>
         </div>
       <% end %>
-      <%= render KaffyWeb.ResourceView, "_table.html", conn: @conn, fields: @fields, context: @context, resource: @resource, my_resource: @my_resource, entries: @entries, params: @params %>
+      <%= render KaffyWeb2.ResourceView, "_table.html", conn: @conn, fields: @fields, context: @context, resource: @resource, my_resource: @my_resource, entries: @entries, params: @params %>
     </div>
 
     <div class="index-pagination">

@@ -1,7 +1,7 @@
-defmodule KaffyWeb.ResourceController do
+defmodule KaffyWeb2.ResourceController do
   @moduledoc false
 
-  use Phoenix.Controller, namespace: KaffyWeb
+  use Phoenix.Controller, namespace: KaffyWeb2
   use Phoenix.HTML
   alias Kaffy2.Pagination
 
@@ -42,7 +42,7 @@ defmodule KaffyWeb.ResourceController do
         render(
           conn,
           "pick_resource.html",
-          layout: {KaffyWeb.LayoutView, "bare.html"},
+          layout: {KaffyWeb2.LayoutView, "bare.html"},
           context: context,
           resource: resource,
           fields: fields,
@@ -88,7 +88,7 @@ defmodule KaffyWeb.ResourceController do
         render(
           conn,
           "index.html",
-          layout: {KaffyWeb.LayoutView, "app.html"},
+          layout: {KaffyWeb2.LayoutView, "app.html"},
           context: context,
           resource: resource,
           fields: fields,
@@ -122,7 +122,7 @@ defmodule KaffyWeb.ResourceController do
           render(
             conn,
             "show.html",
-            layout: {KaffyWeb.LayoutView, "app.html"},
+            layout: {KaffyWeb2.LayoutView, "app.html"},
             changeset: changeset,
             context: context,
             resource: resource,
@@ -199,7 +199,7 @@ defmodule KaffyWeb.ResourceController do
             render(
               conn,
               "show.html",
-              layout: {KaffyWeb.LayoutView, "app.html"},
+              layout: {KaffyWeb2.LayoutView, "app.html"},
               changeset: changeset,
               context: context,
               resource: resource,
@@ -216,7 +216,7 @@ defmodule KaffyWeb.ResourceController do
             render(
               conn,
               "show.html",
-              layout: {KaffyWeb.LayoutView, "app.html"},
+              layout: {KaffyWeb2.LayoutView, "app.html"},
               changeset: changeset,
               context: context,
               resource: resource,
@@ -245,7 +245,7 @@ defmodule KaffyWeb.ResourceController do
         render(
           conn,
           "new.html",
-          layout: {KaffyWeb.LayoutView, "app.html"},
+          layout: {KaffyWeb2.LayoutView, "app.html"},
           changeset: changeset,
           context: context,
           resource: resource,
@@ -295,7 +295,7 @@ defmodule KaffyWeb.ResourceController do
             render(
               conn,
               "new.html",
-              layout: {KaffyWeb.LayoutView, "app.html"},
+              layout: {KaffyWeb2.LayoutView, "app.html"},
               changeset: changeset,
               context: context,
               resource: resource,
@@ -310,7 +310,7 @@ defmodule KaffyWeb.ResourceController do
             |> put_flash(:error, error)
             |> render(
               "new.html",
-              layout: {KaffyWeb.LayoutView, "app.html"},
+              layout: {KaffyWeb2.LayoutView, "app.html"},
               changeset: changeset,
               context: context,
               resource: resource,

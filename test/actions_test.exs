@@ -5,7 +5,7 @@ defmodule ActionsTest do
   import Mock
   alias Phoenix.Controller, as: PhoenixController
 
-  alias KaffyWeb.ResourceController
+  alias KaffyWeb2.ResourceController
 
   defmodule ActionsListAdmin do
     @atom_action :test_action

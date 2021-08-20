@@ -1,7 +1,7 @@
-defmodule KaffyWeb.PageController do
+defmodule KaffyWeb2.PageController do
   @moduledoc false
 
-  use Phoenix.Controller, namespace: KaffyWeb
+  use Phoenix.Controller, namespace: KaffyWeb2
 
   def index(conn, %{"slug" => slug}) do
     case Kaffy2.ResourceAdmin.find_page(conn, slug) do
@@ -12,7 +12,7 @@ defmodule KaffyWeb.PageController do
 
       page ->
         conn
-        |> put_layout({KaffyWeb.LayoutView, "app.html"})
+        |> put_layout({KaffyWeb2.LayoutView, "app.html"})
         |> put_view(page.view)
         |> render(page.template, Map.get(page, :assigns, []))
     end

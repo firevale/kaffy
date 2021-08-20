@@ -33,7 +33,7 @@ defmodule Kaffy2.Routes do
         plug(:put_secure_browser_headers)
       end
 
-      scope unquote(scoped), KaffyWeb do
+      scope unquote(scoped), KaffyWeb2 do
         pipe_through(unquote(pipes))
 
         get("/", HomeController, :index, as: :kaffy_home)

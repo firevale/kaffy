@@ -27,19 +27,19 @@
     <div class="row mt-1 row-cols-1 row-cols-md-2 row-cols-sm-1 row-cols-xs-1">
         <%= for widget <- widgets do %>
             <%= if widget.type == "text" do %>
-                <%= render KaffyWeb.HomeView, "_text.html", widget: widget %>
+                <%= render KaffyWeb2.HomeView, "_text.html", widget: widget %>
             <% end %>
 
             <%= if widget.type == "chart" do %>
-                <%= render KaffyWeb.HomeView, "_chart.html", widget: widget %>
+                <%= render KaffyWeb2.HomeView, "_chart.html", widget: widget %>
             <% end %>
 
             <%= if widget.type == "progress" do %>
-                <%= render KaffyWeb.HomeView, "_progress.html", widget: widget %>
+                <%= render KaffyWeb2.HomeView, "_progress.html", widget: widget %>
             <% end %>
 
             <%= if widget.type == "tidbit" do %>
-                <%= render KaffyWeb.HomeView, "_tidbit.html", widget: widget %>
+                <%= render KaffyWeb2.HomeView, "_tidbit.html", widget: widget %>
             <% end %>
         <% end %>
     </div>
