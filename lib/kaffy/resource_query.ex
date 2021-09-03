@@ -69,27 +69,27 @@ defmodule Kaffy.ResourceQuery do
     |> Kaffy.Utils.repo().all()
   end
 
-  def total_count(schema, do_cache, query, opts \\ [])
+  # def total_count(schema, do_cache, query, opts \\ [])
 
-  def total_count(schema, do_cache, query, opts) do
+  def total_count(_schema, _do_cache, query, opts) do
     result =
       from(s in query, select: fragment("count(1)"))
       |> Kaffy.Utils.repo().one(opts)
 
-    if do_cache and result > 100_000 do
-      Kaffy.Cache.Client.add_cache(schema, "count", result, 600)
-    end
+    # if do_cache and result > 100_000 do
+    #   Kaffy.Cache.Client.add_cache(schema, "count", result, 600)
+    # end
 
     result
   end
 
   def cached_total_count(schema, do_cache, query, opts \\ [])
 
-  def cached_total_count(schema, false, query, opts), do: total_count(schema, false, query, opts)
+  def cached_total_count(schema, _, query, opts), do: total_count(schema, false, query, opts)
 
-  def cached_total_count(schema, do_cache, query, opts) do
-    Kaffy.Cache.Client.get_cache(schema, "count") || total_count(schema, do_cache, query, opts)
-  end
+  # def cached_total_count(schema, do_cache, query, opts) do
+  #   Kaffy.Cache.Client.get_cache(schema, "count") || total_count(schema, do_cache, query, opts)
+  # end
 
   defp get_filter_fields(params, resource) do
     schema_fields =

@@ -26,8 +26,11 @@ defmodule Kaffy.Cache.Table do
   """
   def create_table(name \\ @table_name) do
     case :ets.info(name) do
-      :undefined -> :ets.new(name, [:named_table])
-      ref -> ref
+      :undefined ->
+        :ets.new(name, [:named_table, :public])
+
+      ref ->
+        ref
     end
   end
 
