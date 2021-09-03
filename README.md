@@ -15,8 +15,8 @@ without the need to touch the current codebase. It was inspired by django's love
 - [Custom Configurations](#configurations)
 - [Customize the Side Menu](#side-menu)
 - [Customize the Dashboard Page](#dashboard-page)
-- [Customize the Index Pages](#index-page)
-- [Customize the Form Pages](#form-page)
+- [Customize the Index Pages](#index-pages)
+- [Customize the Form Pages](#form-pages)
 - [Custom Form Fields](#custom-form-fields)
 - [Customize the Queries](#customize-the-queries)
 - [Extensions](#extensions)
@@ -193,7 +193,7 @@ Currently, kaffy provides support for 4 types of widgets:
 
 - `text` widgets. Suitable for display relatively long textual information. Candidates: a short review, a specific message for the admin, etc.
 - `tidbit` widgets. Suitable for tiny bits of information (one word, or one number). Cadidates: total sales, a specific date, system status ("Healthy", "Down"), etc.
-- `progress` widgets. Suitable for measuring progres in terms of percentages. Candidates: task progress, survey results, memory usage, etc.
+- `progress` widgets. Suitable for measuring progress in terms of percentages. Candidates: task progress, survey results, memory usage, etc.
 - `chart` widgets. Suitable for displaying chart data with X and Y values. Candidates: any measurable number over a period of time (e.g. sales, visits, etc).
 
 Widgets have shared options:
@@ -201,7 +201,7 @@ Widgets have shared options:
 - `:type` (required) is the type of the widget. Valid options are `text`, `tidbit`, `progress`, and `chart`.
 - `:title` (required) is the title for the widget. What this widget is about.
 - `:content` (required) is the main content of the widget. This can be a string or a map depending on the type of widget.
-- `:order` (optional) is the displaying order of the wigdet. Widgets are display in order based on this value. The default value is 999.
+- `:order` (optional) is the displaying order of the widget. Widgets are display in order based on this value. The default value is 999.
 - `:width` (optional) is the width the widget should occupy on the page. Valid values are 1 to 12. The default for tidbits is 3 and the others 6.
 - `:percentage` (required for progress widgets) is the percentage value for the progress. This must be an integer.
 - `:icon` (optional for tidbit widgets) is the icon displayed next to the tidbit's `content`. Any FontAwesome-valid icon is valid here. For example: `thumbs-up`.
@@ -439,6 +439,32 @@ Notice that:
 
 
 Setting a field's type to `:richtext` will render a rich text editor.
+
+#### Association Forms
+
+A `belongs_to` association should be referenced by the field name, *not* the association name. For example, a schema with the following association:
+
+```
+schema "my_model" do 
+  ...
+  belongs_to :owner, App.Owners.Owner
+  ...
+end
+```
+
+Would define `form_fields/1` like so:
+
+```
+def form_fields(_) do
+  [
+    ...
+    owner_id: nil,
+    ...
+  ]
+end
+```
+
+**NOTE:** `many_to_many` associations are currently not supported.
 
 ### Custom Form Fields
 
@@ -877,7 +903,7 @@ Sometimes you may need to overwrite the way Kaffy is creating, updating, or dele
 
 You can define you own Admin function to perform those actions. This can be useful if you are creating complex records, importing files, etc...
 
-The function that can be overwriten are:
+The function that can be overwritten are:
 
 - `insert/2`
 - `update/2`
